@@ -1,19 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TroopCombatCanvasStartAttackController : MonoBehaviour
 {
-    Canvas cv1Attack;
+    Canvas cvAttack;
+
+    public Canvas cvStart;
 
     void Awake()
     {
-        cv1Attack = GetComponent<Canvas>();
+        cvAttack = GetComponent<Canvas>();
     }
 
     void Start()
     {
-        cv1Attack.enabled = false;
+        cvAttack.enabled = false;
     }
 
     public void MeleeAttack()
@@ -28,5 +31,11 @@ public class TroopCombatCanvasStartAttackController : MonoBehaviour
         /* Ranged Attack Info:
          * Strengths: Range is amazing, has pretty good damage
          * Weaknesses: Pretty low hit chance, might include an ammo limit*/
+    }
+
+    public void Back()
+    {
+        cvAttack.enabled = false;
+        cvStart.enabled = true;
     }
 }
