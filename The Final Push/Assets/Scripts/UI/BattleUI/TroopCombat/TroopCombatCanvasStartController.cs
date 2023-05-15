@@ -5,10 +5,15 @@ using UnityEngine.UI;
 
 public class TroopCombatCanvasStartController : MonoBehaviour
 {
+    TurnController TC;
+    
     Canvas cvStart;
 
     public Canvas cvAttack;
     public Canvas cvMagic;
+
+    public Button btnMagic;
+    public bool usedMagic;
 
     void Awake()
     {
@@ -18,6 +23,10 @@ public class TroopCombatCanvasStartController : MonoBehaviour
     void Start()
     {
         cvStart.enabled = false;
+        if (usedMagic)
+        {
+            btnMagic.interactable = false;
+        }
     }
 
     public void GoToAttack()

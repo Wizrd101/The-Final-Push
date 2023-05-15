@@ -48,8 +48,7 @@ public class PauseMenuController : MonoBehaviour
 
     public void MainMenu()
     {
-        // MAKE SURE TO RENAME THIS TO WHATEVER THE MAIN MENU SCENE IS
-        SceneManager.LoadScene("xxx");
+        SceneManager.LoadScene("main menu");
     }
 
     public void Quit()

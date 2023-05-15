@@ -2908,6 +2908,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cvAttack: {fileID: 1304191318}
   cvMagic: {fileID: 1362617910}
+  btnMagic: {fileID: 1345034953}
+  usedMagic: 1
 --- !u!1 &1824397288
 GameObject:
   m_ObjectHideFlags: 0
