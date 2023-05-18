@@ -35,7 +35,7 @@ public class TileMap : MonoBehaviour
         }
     }
 
-    class Node
+    public class Node
     {
         public List<Node> edges;
         public int x;
@@ -59,11 +59,20 @@ public class TileMap : MonoBehaviour
         {
             for (int j = 0; j < mapSizeY; j++)
             {
+                graph[i, j] = new Node();
+
                 graph[i, j].x = i;
                 graph[i, j].y = j;
+            }
+        }
 
-                //Left
-                if (i > 0)
+        for (int i = 0; i < mapSizeX; i++)
+        {
+            for (int j = 0; j < mapSizeY; j++)
+            {
+
+                        //Left
+                        if (i > 0)
                 {
                     graph[i, j].edges.Add(graph[i - 1,j]);
                 }
@@ -106,11 +115,18 @@ public class TileMap : MonoBehaviour
         return new Vector3(x, y, 0);
     }
 
-    public void MoveSelectedUnitTo(int x, int y)
+    public void GeneratePathTo(int x, int y)
     {
+        // Teleportation Code (For teleporting a unit anywhere)
         //selectedUnit.GetComponent<Unit>().tileX = x;
         //selectedUnit.GetComponent<Unit>().tileY = y;
         //selectedUnit.transform.position = TileCoordToWorldCoord(x, y);
+
+        // Actual Code (using the currentPath List) (Setting CurrentPath is no longer needed)
+        //currentPath = null;
+
+        // Clearing the Old Path
+        selectedUnit.GetComponent<Unit>().currentPath = null;
 
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
         Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
@@ -137,8 +153,25 @@ public class TileMap : MonoBehaviour
 
         while(unvisited.Count > 0)
         {
-            Node u = unvisited.OrderBy(n => dist[n]).First();
+            // Short and slow solution
+            //Node u = unvisited.OrderBy(n => dist[n]).First();
+
+            // More complex, but faster solution
+            Node u = null;
+            foreach(Node possibleU in unvisited)
+            {
+                if (u == null || dist[possibleU] < dist[u])
+                {
+                    u = possibleU;
+                }
+            }
+
             unvisited.Remove(u);
+
+            if (u == target)
+            {
+                break;
+            }
             
             foreach(Node v in u.edges)
             {
@@ -152,5 +185,23 @@ public class TileMap : MonoBehaviour
             }
         }
 
+        if (prev[target] == null)
+        {
+            return;
+        }
+
+        List<Node> currentPath = new List<Node>();
+
+        Node cur = target;
+
+        while (prev[cur] != null)
+        {
+            currentPath.Add(cur);
+            cur = prev[cur];
+        }
+
+        currentPath.Reverse();
+
+        selectedUnit.GetComponent<Unit>().currentPath = currentPath;
     }
 }
