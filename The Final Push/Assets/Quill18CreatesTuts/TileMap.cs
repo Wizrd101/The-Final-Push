@@ -17,6 +17,10 @@ public class TileMap : MonoBehaviour
 
     void Start()
     {
+        selectedUnit.GetComponent<Unit>().tileX = (int)selectedUnit.transform.position.x;
+        selectedUnit.GetComponent<Unit>().tileY = (int)selectedUnit.transform.position.y;
+        selectedUnit.GetComponent<Unit>().map = this;
+
         GenerateMapData();
         GeneratePathfindingGraph();
         GenerateMapVisuals();
@@ -35,21 +39,11 @@ public class TileMap : MonoBehaviour
         }
     }
 
-    public class Node
+    float CostToEnterTile(int x, int y)
     {
-        public List<Node> edges;
-        public int x;
-        public int y;
+        TileType tt = tileTypes[tiles[x, y]];
 
-        public Node()
-        {
-            edges = new List<Node>();
-        }
-
-        public float DistanceTo(Node n)
-        {
-            return Vector2.Distance(new Vector2(x,y), new Vector2(n.x, n.y));
-        }
+        return tt.movementCost;
     }
 
     void GeneratePathfindingGraph()
@@ -115,6 +109,11 @@ public class TileMap : MonoBehaviour
         return new Vector3(x, y, 0);
     }
 
+    /*public bool UnitCanEnterTile(int x, int y)
+    {
+        return tileTypes[tiles[x,y]].isWalkable;
+    }*/
+
     public void GeneratePathTo(int x, int y)
     {
         // Teleportation Code (For teleporting a unit anywhere)
@@ -127,6 +126,11 @@ public class TileMap : MonoBehaviour
 
         // Clearing the Old Path
         selectedUnit.GetComponent<Unit>().currentPath = null;
+
+        /*if (UnitCanEnterTile(x, y) == false)
+        {
+            return;
+        }*/
 
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
         Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
@@ -175,8 +179,9 @@ public class TileMap : MonoBehaviour
             
             foreach(Node v in u.edges)
             {
-                float alt = dist[u] + u.DistanceTo(v);
-                
+                //float alt = dist[u] + u.DistanceTo(v);
+                float alt = dist[u] + CostToEnterTile(v.x, v.y);
+
                 if (alt < dist[v])
                 {
                     dist[v] = alt;
