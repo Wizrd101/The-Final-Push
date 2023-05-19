@@ -109,10 +109,10 @@ public class TileMap : MonoBehaviour
         return new Vector3(x, y, 0);
     }
 
-    /*public bool UnitCanEnterTile(int x, int y)
+    public bool UnitCanEnterTile(int x, int y)
     {
         return tileTypes[tiles[x,y]].isWalkable;
-    }*/
+    }
 
     public void GeneratePathTo(int x, int y)
     {
@@ -127,10 +127,10 @@ public class TileMap : MonoBehaviour
         // Clearing the Old Path
         selectedUnit.GetComponent<Unit>().currentPath = null;
 
-        /*if (UnitCanEnterTile(x, y) == false)
+        if (UnitCanEnterTile(x, y) == false)
         {
             return;
-        }*/
+        }
 
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
         Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
