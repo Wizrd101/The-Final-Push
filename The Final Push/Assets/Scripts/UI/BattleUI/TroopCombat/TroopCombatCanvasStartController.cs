@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class TroopCombatCanvasStartController : MonoBehaviour
 {
-    TurnController TC;
-    
     Canvas cvStart;
 
     public Canvas cvAttack;

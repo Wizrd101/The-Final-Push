@@ -135,6 +135,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 10 soldiers (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 404295640257309667, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1099045333344309328, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -17619,6 +17623,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 37180342560617697, guid: 5802246236152d441a3bd9508b1cb9d4, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1357008600783776363, guid: 5802246236152d441a3bd9508b1cb9d4, type: 3}
       propertyPath: m_Name
       value: 20 enemies (5)
@@ -17688,6 +17696,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 37180342560617697, guid: 5802246236152d441a3bd9508b1cb9d4, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1357008600783776363, guid: 5802246236152d441a3bd9508b1cb9d4, type: 3}
       propertyPath: m_Name
       value: 20 enemies (2)
@@ -17749,6 +17761,84 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5802246236152d441a3bd9508b1cb9d4, type: 3}
+--- !u!1 &316997165
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 316997168}
+  - component: {fileID: 316997167}
+  - component: {fileID: 316997166}
+  m_Layer: 0
+  m_Name: CameraParent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &316997166
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316997165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9f60248b7b4921499a97722c4549091, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 1581814505}
+  speed: 3
+  zoomState: 5
+  minZoom: 2
+  maxZoom: 10
+--- !u!50 &316997167
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316997165}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
+--- !u!4 &316997168
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316997165}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 37, y: 1.57, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 1581814506}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &350326487
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17760,6 +17850,10 @@ PrefabInstance:
     - target: {fileID: 100889522977442334, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_Name
       value: 10 soldiers (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 404295640257309667, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099045333344309328, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_RootOrder
@@ -17866,6 +17960,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 1 general (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8715014557374188859, guid: c249a172dee189d43ae2999df2f4bb45, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17931,6 +18029,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2148696073864438808, guid: 11d966e0bf4d5774eb9260c0bce73e84, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4964989938540003171, guid: 11d966e0bf4d5774eb9260c0bce73e84, type: 3}
       propertyPath: m_Name
       value: prison (2)
@@ -17951,6 +18053,10 @@ PrefabInstance:
     - target: {fileID: 100889522977442334, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_Name
       value: 10 soldiers (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 404295640257309667, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099045333344309328, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_RootOrder
@@ -24037,6 +24143,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1697609359537667956, guid: ba1da0eae23f8d04784b1c140c40865a, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7895710634628339651, guid: ba1da0eae23f8d04784b1c140c40865a, type: 3}
       propertyPath: m_Name
       value: 10 enemies (1)
@@ -24162,6 +24272,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5797780135182313308, guid: 3bf34150429a447428f476ced9dfdbbe, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24224,6 +24338,10 @@ PrefabInstance:
     - target: {fileID: 100889522977442334, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_Name
       value: 10 soldiers (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 404295640257309667, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099045333344309328, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_RootOrder
@@ -24329,6 +24447,10 @@ PrefabInstance:
     - target: {fileID: 8062473786569491973, guid: c249a172dee189d43ae2999df2f4bb45, type: 3}
       propertyPath: m_Name
       value: 1 general (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715014557374188859, guid: c249a172dee189d43ae2999df2f4bb45, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -24456,6 +24578,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2148696073864438808, guid: 11d966e0bf4d5774eb9260c0bce73e84, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4964989938540003171, guid: 11d966e0bf4d5774eb9260c0bce73e84, type: 3}
       propertyPath: m_Name
       value: prison (1)
@@ -24473,6 +24599,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 37180342560617697, guid: 5802246236152d441a3bd9508b1cb9d4, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1357008600783776363, guid: 5802246236152d441a3bd9508b1cb9d4, type: 3}
       propertyPath: m_Name
       value: 20 enemies (1)
@@ -24545,6 +24675,10 @@ PrefabInstance:
     - target: {fileID: 100889522977442334, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_Name
       value: 10 soldiers (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 404295640257309667, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099045333344309328, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_RootOrder
@@ -24656,7 +24790,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 11.560249
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -24679,13 +24813,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1581814503}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 58.53, y: 1.96, z: -10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_Father: {fileID: 316997168}
+  m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1680053302
 PrefabInstance:
@@ -24698,6 +24832,10 @@ PrefabInstance:
     - target: {fileID: 100889522977442334, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_Name
       value: 10 soldiers (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 404295640257309667, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099045333344309328, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_RootOrder
@@ -24756,6 +24894,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 37180342560617697, guid: 5802246236152d441a3bd9508b1cb9d4, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1357008600783776363, guid: 5802246236152d441a3bd9508b1cb9d4, type: 3}
       propertyPath: m_Name
       value: 20 enemies (4)
@@ -24873,6 +25015,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 1 general (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 8715014557374188859, guid: c249a172dee189d43ae2999df2f4bb45, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -24886,6 +25032,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 37180342560617697, guid: 5802246236152d441a3bd9508b1cb9d4, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1357008600783776363, guid: 5802246236152d441a3bd9508b1cb9d4, type: 3}
       propertyPath: m_Name
       value: 20 enemies (3)
@@ -25064,6 +25214,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 1 general (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 8715014557374188859, guid: c249a172dee189d43ae2999df2f4bb45, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -25080,6 +25234,10 @@ PrefabInstance:
     - target: {fileID: 100889522977442334, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_Name
       value: 10 soldiers (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 404295640257309667, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099045333344309328, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_RootOrder
@@ -25141,6 +25299,10 @@ PrefabInstance:
     - target: {fileID: 100889522977442334, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_Name
       value: 10 soldiers
+      objectReference: {fileID: 0}
+    - target: {fileID: 404295640257309667, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1099045333344309328, guid: 925ca5eae33c06b419afc995fc48e28d, type: 3}
       propertyPath: m_RootOrder
@@ -25247,6 +25409,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 1 general
       objectReference: {fileID: 0}
+    - target: {fileID: 8715014557374188859, guid: c249a172dee189d43ae2999df2f4bb45, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -25260,6 +25426,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 37180342560617697, guid: 5802246236152d441a3bd9508b1cb9d4, type: 3}
+      propertyPath: m_GravityScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1357008600783776363, guid: 5802246236152d441a3bd9508b1cb9d4, type: 3}
       propertyPath: m_Name
       value: 20 enemies
