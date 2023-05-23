@@ -191,6 +191,107 @@ public class TileMap : MonoBehaviour
             }
         }
 
+        for (int i = 43; i <= 46; i++)
+        {
+            for (int j = 13; j <= 14; j++)
+            {
+                tiles[i, j] = 0;
+            }
+        }
+
+        for (int i = 37; i <= 42; i++)
+        {
+            for (int j = 11; j <= 13; j++)
+            {
+                tiles[i, j] = 0;
+            }
+        }
+
+        for (int i = 40; i <= 41; i++)
+        {
+            for (int j = 8; j <= 10; j++)
+            {
+                tiles[i, j] = 0;
+            }
+        }
+
+        for (int i = 42; i <= 43; i++)
+        {
+            for (int j = 2; j <= 8; j++)
+            {
+                tiles[i, j] = 0;
+            }
+        }
+
+        for (int i = 44; i <= 45; i++)
+        {
+            for (int j = 1; j <= 2; j++)
+            {
+                tiles[i, j] = 0;
+            }
+        }
+
+        for (int i = 32; i <= 35; i++)
+        {
+            for (int j = 11; j <= 14; j++)
+            {
+                tiles[i, j] = 0;
+            }
+        }
+
+        for (int i = 31; i <= 33; i++)
+        {
+            for (int j = 15; j <= 18; j++)
+            {
+                tiles[i, j] = 0;
+            }
+        }
+
+        for (int i = 22; i <= 32; i++)
+        {
+            for (int j = 9; j <= 10; j++)
+            {
+                tiles[i, j] = 0;
+            }
+        }
+
+        for (int i = 25; i <= 28; i++)
+        {
+            tiles[i, 8] = 0;
+        }
+
+        for (int i = 20; i <= 27; i++)
+        {
+            for (int j = 11; j <= 12; j++)
+            {
+                tiles[i, j] = 0;
+            }
+        }
+
+        for (int i = 17; i <= 23; i++)
+        {
+            for (int j = 13; j <= 14; j++)
+            {
+                tiles[i, j] = 0;
+            }
+        }
+
+        for (int i = 15; i <= 19; i++)
+        {
+            for (int j = 15; j <= 16; j++)
+            {
+                tiles[i, j] = 0;
+            }
+        }
+
+        for (int i = 13; i <= 15; i++)
+        {
+            for (int j = 17; j <= 18; j++)
+            {
+                tiles[i, j] = 0;
+            }
+        }
+
         //4
         tiles[4, 18] = 0;
         tiles[4, 22] = 0;
@@ -211,8 +312,18 @@ public class TileMap : MonoBehaviour
         //13
         tiles[13, 30] = 0;
         //14
+        tiles[14, 16] = 0;
         tiles[14, 30] = 0;
+        //16
+        tiles[16, 14] = 0;
+        tiles[16, 17] = 0;
+        //19
+        tiles[19, 12] = 0;
+        //20
+        tiles[20, 15] = 0;
         //21
+        tiles[21, 10] = 0;
+        tiles[21, 15] = 0;
         tiles[21, 22] = 0;
         tiles[21, 33] = 0;
         //22
@@ -222,19 +333,42 @@ public class TileMap : MonoBehaviour
         tiles[23, 33] = 0;
         tiles[23, 36] = 0;
         tiles[23, 39] = 0;
+        //24
+        tiles[24, 13] = 0;
         //25
         tiles[25, 25] = 0;
         //28
+        tiles[28, 11] = 0;
         tiles[28, 24] = 0;
         //29
         tiles[29, 24] = 0;
         tiles[29, 25] = 0;
         //30
         tiles[30, 31] = 0;
+        //31
+        tiles[31, 11] = 0;
         //32
         tiles[32, 32] = 0;
         //33
+        tiles[33, 10] = 0;
         tiles[33, 30] = 0;
+        //34
+        tiles[34, 10] = 0;
+        tiles[34, 15] = 0;
+        //36
+        tiles[36, 12] = 0;
+        tiles[36, 13] = 0;
+        //41
+        tiles[41, 7] = 0;
+        //42
+        tiles[42, 9] = 0;
+        tiles[42, 14] = 0;
+        //43
+        tiles[43, 1] = 0;
+        tiles[43, 12] = 0;
+        //44
+        tiles[44, 3] = 0;
+        tiles[44, 12] = 0;
         //47
         tiles[47, 24] = 0;
         tiles[47, 25] = 0;
