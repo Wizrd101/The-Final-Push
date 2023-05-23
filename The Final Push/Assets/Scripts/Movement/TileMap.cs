@@ -24,10 +24,6 @@ public class TileMap : MonoBehaviour
 
     void Start()
     {
-        selectedUnit.GetComponent<Unit>().tileX = (int)selectedUnit.transform.position.x;
-        selectedUnit.GetComponent<Unit>().tileY = (int)selectedUnit.transform.position.y;
-        selectedUnit.GetComponent<Unit>().map = this;
-
         curScene = SceneManager.GetActiveScene();
 
         if (curScene.name == "LevelOneScene")
