@@ -8,8 +8,8 @@ public class PlayerUnitInfo : MonoBehaviour
     // 0 is unset, which is an error, and Generals have their own script.
     public int unitType = 0;
 
-    int maxHealth;
-    public int curHealth;
+    int maxHealth = 1;
+    public int curHealth = 1;
 
     public int atkPower;
 
@@ -37,6 +37,7 @@ public class PlayerUnitInfo : MonoBehaviour
     {
         if (curHealth <= 0)
         {
+            Debug.Log("Unit Destroyed");
             Destroy(gameObject);
         }
     }
