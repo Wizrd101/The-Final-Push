@@ -527,6 +527,11 @@ public class TileMap : MonoBehaviour
         //currentPath = null;
 
         // Clearing the Old Path
+        if (selectedUnit == null)
+        {
+            return;
+        }
+
         selectedUnit.GetComponent<Unit>().currentPath = null;
 
         if (UnitCanEnterTile(x, y) == false)

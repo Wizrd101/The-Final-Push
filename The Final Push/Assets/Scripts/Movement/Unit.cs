@@ -14,6 +14,11 @@ public class Unit : MonoBehaviour
     {
         tileX = (int)transform.position.x;
         tileY = (int)transform.position.y;
+
+        if (map == null)
+        {
+            map = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+        }
     }
 
     void Update()
