@@ -10,6 +10,12 @@ public class Unit : MonoBehaviour
 
     public List<Node> currentPath = null;
 
+    void Start()
+    {
+        tileX = (int)transform.position.x;
+        tileY = (int)transform.position.y;
+    }
+
     void Update()
     {
         if (currentPath != null)

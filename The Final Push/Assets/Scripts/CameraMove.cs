@@ -29,7 +29,7 @@ public class CameraMove : MonoBehaviour
         Vector2 moveDirection = new Vector2(xInput, yInput);
 
         rb.velocity = moveDirection * speed;
-        
+
         // Handles the zooming in and out of the camera. Q is zoom in, E is zoom out
         if (Input.GetKeyDown(KeyCode.Q))
         {

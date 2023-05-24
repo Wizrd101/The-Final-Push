@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ClickableTile : MonoBehaviour
 {
@@ -10,6 +11,9 @@ public class ClickableTile : MonoBehaviour
 
     void OnMouseUp()
     {
-        map.GeneratePathTo(tileX, tileY);
+        if (!EventSystem.current.IsPointerOverGameObject())
+        {
+            map.GeneratePathTo(tileX, tileY);
+        }
     }
 }
