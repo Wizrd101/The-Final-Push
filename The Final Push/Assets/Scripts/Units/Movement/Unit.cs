@@ -11,7 +11,15 @@ public class Unit : MonoBehaviour
 
     public List<Node> currentPath = null;
 
+    StateController sc;
+
     Button moveButton;
+
+    ActionStateController asc;
+
+    GameObject camPar;
+    Camera cam;
+    CameraMove camParMoveScript;
 
     void Start()
     {
@@ -22,8 +30,17 @@ public class Unit : MonoBehaviour
         {
             map = GameObject.FindWithTag("Map").GetComponent<TileMap>();
         }
+        
+        sc = GetComponent<StateController>();
 
         moveButton = GameObject.FindWithTag("MoveButton").GetComponent<Button>();
+
+        asc = GetComponent<ActionStateController>();
+
+        camPar = GameObject.FindWithTag("CamParent");
+        cam = camPar.GetComponentInChildren<Camera>();
+        camParMoveScript = camPar.GetComponent<CameraMove>();
+
     }
 
     void Update()
@@ -47,11 +64,23 @@ public class Unit : MonoBehaviour
         {
             moveButton.onClick.AddListener(MoveNextTile);
         }
+
+        // After the unit is done moving, it automatically triggers the action
+        if (sc.state == UnitState.ACTION)
+        {
+            // Setting the Camera in the right position
+            camPar.transform.position = new Vector3 (this.transform.position.x, this.transform.position.y, -10f);
+            camParMoveScript.zoomState = camParMoveScript.lockZoomState;
+            cam.orthographicSize = camParMoveScript.zoomState;
+            camParMoveScript.lockCam = true;
+
+            asc.ActionTrigger(this.gameObject);
+        }
     }
 
     public void MoveNextTile()
     {
-        if (currentPath == null)
+        if (currentPath == null || sc.state != UnitState.MOVING)
         {
             return;
         }
@@ -69,5 +98,15 @@ public class Unit : MonoBehaviour
                 currentPath = null;
             }
         }
+
+        sc.state = UnitState.ACTION;
+    }
+}
+
+public class ActionStateController : MonoBehaviour
+{
+    public void ActionTrigger(GameObject unit)
+    {
+
     }
 }

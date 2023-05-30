@@ -17,8 +17,6 @@ public class TileMap : MonoBehaviour
 
     public List<Node> currentPath;
 
-    public bool curPathActive;
-
     // In the for loops, i is x and j is y
     int levelOneMapSizeX = 52;
     int levelOneMapSizeY = 41;
@@ -49,15 +47,6 @@ public class TileMap : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             currentPath = null;
-        }
-
-        if (currentPath != null)
-        {
-            curPathActive = true;
-        }
-        else
-        {
-            curPathActive = false;
         }
     }
 

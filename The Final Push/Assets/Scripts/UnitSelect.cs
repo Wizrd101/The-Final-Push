@@ -23,14 +23,14 @@ public class UnitSelect : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Select Clicked");
+            //Debug.Log("Select Clicked");
             RaycastHit2D hit = Physics2D.Raycast(new Vector2 (cam.ScreenToWorldPoint(Input.mousePosition).x, cam.ScreenToWorldPoint(Input.mousePosition).y), Vector2.zero, Mathf.Infinity);
             if (hit.collider.tag == "PlayerUnit")
             {
-                Debug.Log("A unit has been clicked");
+                //Debug.Log("A unit has been clicked");
                 if (hit.collider.gameObject != map.selectedUnit)
                 {
-                    Debug.Log("A new unit has been clicked!");
+                    //Debug.Log("A new unit has been clicked!");
                     if (map.selectedUnit != null)
                     {
                         unit = map.selectedUnit.GetComponent<Unit>();
@@ -44,11 +44,17 @@ public class UnitSelect : MonoBehaviour
 
         if (Input.GetMouseButtonDown(1))
         {
-            Debug.Log("Unselect Clicked");
+            //Debug.Log("Unselect Clicked");
+            if (map.selectedUnit != null)
+            {
+                unit = map.selectedUnit.GetComponent<Unit>();
+                unit.currentPath = null;
+            }
+            map.currentPath = null;
             map.selectedUnit = null;
         }
 
-        if (map.selectedUnit == this)
+        if (map.selectedUnit == this.gameObject)
         {
             // Do something to symbolize that this unit is selected
         }
