@@ -12,6 +12,4 @@ public class StateController : MonoBehaviour
     {
         state = UnitState.MOVING;
     }
-
-    
 }

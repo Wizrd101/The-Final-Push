@@ -45,7 +45,6 @@ public class Unit : MonoBehaviour
 
         if (map.selectedUnit == this.gameObject)
         {
-            Debug.Log("In the right place");
             moveButton.onClick.AddListener(MoveNextTile);
         }
     }

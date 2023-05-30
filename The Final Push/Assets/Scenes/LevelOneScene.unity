@@ -832,6 +832,7 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 399601965828448310, guid: a2189c4b6607dfd41930f197b56a2d07, type: 3}
     movementCost: Infinity
     isWalkable: 0
+  curPathActive: 0
 --- !u!4 &1008418009
 Transform:
   m_ObjectHideFlags: 0

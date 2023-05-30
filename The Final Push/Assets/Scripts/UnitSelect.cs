@@ -6,6 +6,8 @@ using UnityEngine;
 public class UnitSelect : MonoBehaviour
 {
     TileMap map;
+    Unit unit;
+
     Camera cam;
 
     void Start()
@@ -26,7 +28,17 @@ public class UnitSelect : MonoBehaviour
             if (hit.collider.tag == "PlayerUnit")
             {
                 Debug.Log("A unit has been clicked");
-                map.selectedUnit = hit.collider.gameObject;
+                if (hit.collider.gameObject != map.selectedUnit)
+                {
+                    Debug.Log("A new unit has been clicked!");
+                    if (map.selectedUnit != null)
+                    {
+                        unit = map.selectedUnit.GetComponent<Unit>();
+                        unit.currentPath = null;
+                    }
+                    map.currentPath = null;
+                    map.selectedUnit = hit.collider.gameObject;
+                }
             }
         }
 
