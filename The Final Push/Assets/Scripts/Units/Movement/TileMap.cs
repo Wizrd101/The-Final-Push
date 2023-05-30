@@ -15,6 +15,8 @@ public class TileMap : MonoBehaviour
     int[,] tiles;
     Node[,] graph;
 
+    List<Node> currentPath;
+
     // In the for loops, i is x and j is y
     int levelOneMapSizeX = 52;
     int levelOneMapSizeY = 41;
@@ -37,6 +39,14 @@ public class TileMap : MonoBehaviour
             GenerateMapDataLevelTwo();
             GeneratePathfindingGraphLevelTwo();
             GenerateMapVisualsLevelTwo();
+        }
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            currentPath = null;
         }
     }
 
@@ -602,7 +612,7 @@ public class TileMap : MonoBehaviour
             return;
         }
 
-        List<Node> currentPath = new List<Node>();
+        currentPath = new List<Node>();
 
         Node cur = target;
 

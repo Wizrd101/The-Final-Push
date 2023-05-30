@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Unit : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Unit : MonoBehaviour
     public TileMap map;
 
     public List<Node> currentPath = null;
+
+    Button moveButton;
 
     void Start()
     {
@@ -19,6 +22,8 @@ public class Unit : MonoBehaviour
         {
             map = GameObject.FindWithTag("Map").GetComponent<TileMap>();
         }
+
+        moveButton = GameObject.FindWithTag("MoveButton").GetComponent<Button>();
     }
 
     void Update()
@@ -36,6 +41,12 @@ public class Unit : MonoBehaviour
 
                 curNode++;
             }
+        }
+
+        if (map.selectedUnit == this.gameObject)
+        {
+            Debug.Log("In the right place");
+            moveButton.onClick.AddListener(MoveNextTile);
         }
     }
 

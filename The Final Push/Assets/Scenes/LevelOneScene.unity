@@ -328,9 +328,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c70fb758f5df45f4fa74a396d2766cb3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerMask:
-    serializedVersion: 2
-    m_Bits: 128
 --- !u!1 &26427719
 GameObject:
   m_ObjectHideFlags: 0
@@ -344,8 +341,8 @@ GameObject:
   - component: {fileID: 26427722}
   - component: {fileID: 26427721}
   m_Layer: 5
-  m_Name: ExMoveBtton
-  m_TagString: Untagged
+  m_Name: ExMoveButton
+  m_TagString: MoveButton
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -414,19 +411,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 26427722}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 2022873910}
-        m_TargetAssemblyTypeName: Unit, Assembly-CSharp
-        m_MethodName: MoveNextTile
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &26427722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -558,14 +543,14 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4717635513417730553, guid: 0b2008d0e2f8940458abdd7f7f48acdd, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6629376026592703053, guid: 0b2008d0e2f8940458abdd7f7f48acdd, type: 3}
       propertyPath: map
       value: 
       objectReference: {fileID: 1008418008}
+    - target: {fileID: 6629376026592703053, guid: 0b2008d0e2f8940458abdd7f7f48acdd, type: 3}
+      propertyPath: moveButton
+      value: 
+      objectReference: {fileID: 26427721}
     - target: {fileID: 7265835943835033749, guid: 0b2008d0e2f8940458abdd7f7f48acdd, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -1079,7 +1064,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1409446598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22968,14 +22953,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2022873910 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6629376026592703053, guid: 0b2008d0e2f8940458abdd7f7f48acdd, type: 3}
-  m_PrefabInstance: {fileID: 419700374}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e407c1f9e0d2c0c48876b4be3abb07e7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
