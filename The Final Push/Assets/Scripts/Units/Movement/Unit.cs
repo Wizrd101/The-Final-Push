@@ -21,6 +21,8 @@ public class Unit : MonoBehaviour
     Camera cam;
     CameraMove camParMoveScript;
 
+    Canvas moveCv;
+
     bool triggerOnce = false;
 
     void Start()
@@ -43,6 +45,7 @@ public class Unit : MonoBehaviour
         cam = camPar.GetComponentInChildren<Camera>();
         camParMoveScript = camPar.GetComponent<CameraMove>();
 
+        moveCv = GameObject.Find("MoveCanvas").GetComponent<Canvas>();
     }
 
     void Update()
@@ -70,6 +73,9 @@ public class Unit : MonoBehaviour
         // After the unit is done moving, it automatically triggers the action
         if (sc.state == UnitState.ACTION)
         {
+            // Disabling the Move Canvas, so the button doesn't show
+            moveCv.enabled = false;
+
             // Setting the Camera in the right position
             camPar.transform.position = new Vector3 (this.transform.position.x, this.transform.position.y, -10f);
             camParMoveScript.zoomState = camParMoveScript.lockZoomState;
@@ -95,6 +101,8 @@ public class Unit : MonoBehaviour
         if (sc.state == UnitState.END)
         {
             // Make the Unit grayscaled and un-interactable
+            // Re-enabling the MoveCanvas so another unit can move
+            moveCv.enabled = true;
             // Reset TriggerOnce for the next turn
             triggerOnce = false;
         }
@@ -113,7 +121,7 @@ public class Unit : MonoBehaviour
 
             tileX = currentPath[0].x;
             tileY = currentPath[0].y;
-            transform.position = map.TileCoordToWorldCoord(tileX, tileY);
+            transform.position = map.TileCoordToWorldCoord(tileX, tileY) + new Vector3(0, 0, 0.01f);
 
             if (currentPath.Count == 1)
             {
