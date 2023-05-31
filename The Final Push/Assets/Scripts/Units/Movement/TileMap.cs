@@ -44,6 +44,7 @@ public class TileMap : MonoBehaviour
 
     void Update()
     {
+        // The P Key resets the path
         if (Input.GetKeyDown(KeyCode.P))
         {
             currentPath = null;
@@ -533,9 +534,6 @@ public class TileMap : MonoBehaviour
         //selectedUnit.GetComponent<Unit>().tileY = y;
         //selectedUnit.transform.position = TileCoordToWorldCoord(x, y);
 
-        // Actual Code (using the currentPath List) (Setting CurrentPath is no longer needed)
-        //currentPath = null;
-
         // Clearing the Old Path
         if (selectedUnit == null)
         {
@@ -596,7 +594,6 @@ public class TileMap : MonoBehaviour
             
             foreach(Node v in u.edges)
             {
-                //float alt = dist[u] + u.DistanceTo(v);
                 float alt = dist[u] + CostToEnterTile(v.x, v.y);
 
                 if (alt < dist[v])
@@ -622,8 +619,12 @@ public class TileMap : MonoBehaviour
             cur = prev[cur];
         }
 
+        currentPath.Add(source);
+
         currentPath.Reverse();
 
         selectedUnit.GetComponent<Unit>().currentPath = currentPath;
+
+        Debug.Log(currentPath.Count);
     }
 }

@@ -74,7 +74,20 @@ public class Unit : MonoBehaviour
             cam.orthographicSize = camParMoveScript.zoomState;
             camParMoveScript.lockCam = true;
 
-            asc.ActionTrigger(this.gameObject);
+            if (this.gameObject.tag == "PlayerUnit")
+            {
+                asc.ActionTriggerUnit(this.gameObject);
+            }
+            else
+            {
+                asc.ActionTriggerGeneral(this.gameObject);
+            }
+        }
+
+        // After the ActionStateController script is done executing, all roads will trigger the end state
+        if (sc.state == UnitState.END)
+        {
+            // Make the Unit grayscaled and un-interactable
         }
     }
 
@@ -100,13 +113,5 @@ public class Unit : MonoBehaviour
         }
 
         sc.state = UnitState.ACTION;
-    }
-}
-
-public class ActionStateController : MonoBehaviour
-{
-    public void ActionTrigger(GameObject unit)
-    {
-
     }
 }
