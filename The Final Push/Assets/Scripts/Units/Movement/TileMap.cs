@@ -540,8 +540,6 @@ public class TileMap : MonoBehaviour
             return;
         }
 
-        
-
         selectedUnit.GetComponent<Unit>().currentPath = null;
 
         if (UnitCanEnterTile(x, y) == false)

@@ -10,8 +10,8 @@ public class ClickableTile : MonoBehaviour
     public int tileY;
     public TileMap map;
 
-    PlayerUnitInfo unit;
-    PlayerGeneralInfo general;
+    UnitInfo unit;
+    GeneralInfo general;
 
     StateController sc;
 
@@ -22,12 +22,12 @@ public class ClickableTile : MonoBehaviour
         {
             if (map.selectedUnit.tag == "PlayerUnit")
             {
-                unit = map.selectedUnit.GetComponent<PlayerUnitInfo>();
+                unit = map.selectedUnit.GetComponent<UnitInfo>();
                 map.GeneratePathTo(tileX, tileY, unit.moveDist);
             }
             else
             {
-                general = map.selectedUnit.GetComponent<PlayerGeneralInfo>();
+                general = map.selectedUnit.GetComponent<GeneralInfo>();
                 map.GeneratePathTo(tileX, tileY, general.moveDist);
             }
         }

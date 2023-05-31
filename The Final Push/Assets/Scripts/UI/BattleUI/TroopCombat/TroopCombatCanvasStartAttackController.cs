@@ -24,7 +24,6 @@ public class TroopCombatCanvasStartAttackController : MonoBehaviour
         /* Melee Attack Info:
          * Strengths: Very strong attack, has a high hit rate and crit chance
          * Weaknesses: Range is absolutely terrible*/
-        
     }
 
     public void RangedAttack()

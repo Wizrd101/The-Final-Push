@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerGeneralInfo : MonoBehaviour
+public class GeneralInfo : MonoBehaviour
 {
     // Every General will have a unique quality (extra damage, more range, cool magic, etc.)
     // GeneralType will help us differentiate between them.

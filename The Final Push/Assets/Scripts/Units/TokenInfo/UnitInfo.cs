@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerUnitInfo : MonoBehaviour
+public class UnitInfo : MonoBehaviour
 {
     // Unit Type dictates how strong a Unit is. 1 = 5 troops, 2 = 10 troops.
     // 0 is unset, which is an error, and Generals have their own script.
@@ -13,9 +13,9 @@ public class PlayerUnitInfo : MonoBehaviour
 
     public int atkPower;
 
-    public int moveDist = 5;
+    public int moveDist;
 
-    private void Start()
+    void Start()
     {
         if (unitType == 1)
         {
@@ -31,6 +31,8 @@ public class PlayerUnitInfo : MonoBehaviour
         {
             Debug.LogWarning("You forgot to set the Unit Type idiot");
         }
+
+        moveDist = 5;
 
         curHealth = maxHealth;
     }

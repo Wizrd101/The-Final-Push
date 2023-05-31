@@ -14,8 +14,11 @@ public class ActionStateController : MonoBehaviour
     Button magicAtkBtn;
     Button magicHealBtn;
 
-    PlayerUnitInfo PlayerUI;
-    PlayerGeneralInfo PlayerGI;
+    UnitInfo PlayerUI;
+    GeneralInfo PlayerGI;
+
+    UnitInfo EnemyUI;
+    GeneralInfo EnemyGI;
 
     StateController sc;
 
@@ -58,7 +61,7 @@ public class ActionStateController : MonoBehaviour
     public void ActionTriggerUnit(GameObject unit)
     {
         startCv.enabled = true;
-        PlayerUI = unit.GetComponent<PlayerUnitInfo>();
+        PlayerUI = unit.GetComponent<UnitInfo>();
         
         // Button Events
         meleeBtn.onClick.AddListener(UnitMelee);
@@ -70,7 +73,7 @@ public class ActionStateController : MonoBehaviour
     public void ActionTriggerGeneral(GameObject unit)
     {
         startCv.enabled = true;
-        PlayerGI = unit.GetComponent<PlayerGeneralInfo>();
+        PlayerGI = unit.GetComponent<GeneralInfo>();
 
         // Buttons Events
         meleeBtn.onClick.AddListener(GeneralMelee);
@@ -81,6 +84,7 @@ public class ActionStateController : MonoBehaviour
 
     public void UnitMelee()
     {
+
         EndAction();
     }
 
