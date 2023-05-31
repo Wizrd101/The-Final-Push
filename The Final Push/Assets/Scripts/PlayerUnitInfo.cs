@@ -13,6 +13,8 @@ public class PlayerUnitInfo : MonoBehaviour
 
     public int atkPower;
 
+    public int moveDist = 5;
+
     private void Start()
     {
         if (unitType == 1)

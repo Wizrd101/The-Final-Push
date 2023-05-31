@@ -10,6 +10,9 @@ public class ClickableTile : MonoBehaviour
     public int tileY;
     public TileMap map;
 
+    PlayerUnitInfo unit;
+    PlayerGeneralInfo general;
+
     StateController sc;
 
     void OnMouseUp()
@@ -17,7 +20,16 @@ public class ClickableTile : MonoBehaviour
         sc = map.selectedUnit.GetComponent<StateController>();
         if (!EventSystem.current.IsPointerOverGameObject() && sc.state == UnitState.MOVING)
         {
-            map.GeneratePathTo(tileX, tileY);
+            if (map.selectedUnit.tag == "PlayerUnit")
+            {
+                unit = map.selectedUnit.GetComponent<PlayerUnitInfo>();
+                map.GeneratePathTo(tileX, tileY, unit.moveDist);
+            }
+            else
+            {
+                general = map.selectedUnit.GetComponent<PlayerGeneralInfo>();
+                map.GeneratePathTo(tileX, tileY, general.moveDist);
+            }
         }
     }
 }

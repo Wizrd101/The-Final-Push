@@ -527,7 +527,7 @@ public class TileMap : MonoBehaviour
         return tileTypes[tiles[x,y]].isWalkable;
     }
 
-    public void GeneratePathTo(int x, int y)
+    public void GeneratePathTo(int x, int y, int maxDist)
     {
         // Teleportation Code (For teleporting a unit anywhere)
         //selectedUnit.GetComponent<Unit>().tileX = x;
@@ -539,6 +539,8 @@ public class TileMap : MonoBehaviour
         {
             return;
         }
+
+        
 
         selectedUnit.GetComponent<Unit>().currentPath = null;
 
@@ -623,8 +625,13 @@ public class TileMap : MonoBehaviour
 
         currentPath.Reverse();
 
-        selectedUnit.GetComponent<Unit>().currentPath = currentPath;
+        if (currentPath.Count > maxDist)
+        {
+            Debug.Log("Point Out of Range");
+            currentPath = null;
+            return;
+        }
 
-        Debug.Log(currentPath.Count);
+        selectedUnit.GetComponent<Unit>().currentPath = currentPath;
     }
 }

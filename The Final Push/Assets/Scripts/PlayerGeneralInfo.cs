@@ -14,6 +14,8 @@ public class PlayerGeneralInfo : MonoBehaviour
 
     public int atkPower = 3;
 
+    public int moveDist = 6;
+
     private void Start()
     {
         // General 1. Generally better stats.
@@ -35,12 +37,12 @@ public class PlayerGeneralInfo : MonoBehaviour
         // General 4. Can automatically use magic once without taking out of the magic total.
         else if (generalType == 4)
         {
-            // Figure this out
+            // Figure this out later
         }
         // General 5. Can move extra spaces.
         else if (generalType == 5)
         {
-            // Revisit once movement is capped.
+            moveDist = 8;
         }
         // Null General, something is wrong. Forgot to set the general's type or something.
         else if (generalType == 0)
