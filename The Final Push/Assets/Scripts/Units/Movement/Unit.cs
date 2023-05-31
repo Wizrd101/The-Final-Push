@@ -21,6 +21,8 @@ public class Unit : MonoBehaviour
     Camera cam;
     CameraMove camParMoveScript;
 
+    bool triggerOnce = false;
+
     void Start()
     {
         tileX = (int)transform.position.x;
@@ -74,7 +76,27 @@ public class Unit : MonoBehaviour
             cam.orthographicSize = camParMoveScript.zoomState;
             camParMoveScript.lockCam = true;
 
-            asc.ActionTrigger(this.gameObject);
+            // Trigger Once locks the Action Trigger so it doesn't constantly set the Start Canvas enabled to t
+            if (!triggerOnce)
+            {
+                triggerOnce = true;
+                if (this.gameObject.tag == "PlayerUnit")
+                {
+                    asc.ActionTriggerUnit(this.gameObject);
+                }
+                else
+                {
+                    asc.ActionTriggerGeneral(this.gameObject);
+                }
+            }
+        }
+
+        // After the ActionStateController script is done executing, all roads will trigger the end state
+        if (sc.state == UnitState.END)
+        {
+            // Make the Unit grayscaled and un-interactable
+            // Reset TriggerOnce for the next turn
+            triggerOnce = false;
         }
     }
 
@@ -100,13 +122,5 @@ public class Unit : MonoBehaviour
         }
 
         sc.state = UnitState.ACTION;
-    }
-}
-
-public class ActionStateController : MonoBehaviour
-{
-    public void ActionTrigger(GameObject unit)
-    {
-
     }
 }
