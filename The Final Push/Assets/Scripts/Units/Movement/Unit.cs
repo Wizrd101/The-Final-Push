@@ -104,11 +104,7 @@ public class Unit : MonoBehaviour
                 triggerOnce = true;
                 if (this.gameObject.tag == "PlayerUnit")
                 {
-                    asc.ActionTriggerUnit(this.gameObject);
-                }
-                else
-                {
-                    asc.ActionTriggerGeneral(this.gameObject);
+                    asc.ActionTriggerUnit();
                 }
             }
         }
@@ -128,6 +124,9 @@ public class Unit : MonoBehaviour
 
             // Sets the movable variable to false, so the unit cannot move more than once per turn
             movable = false;
+
+            // Unlocks the camera so we can move it again
+            camParMoveScript.lockCam = false;
         }
     }
 

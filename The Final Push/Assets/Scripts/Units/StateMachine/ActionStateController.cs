@@ -2,138 +2,200 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class ActionStateController : MonoBehaviour
 {
+    // Three button canvases.
     Canvas startCv;
     Canvas attackCv;
     Canvas magicCv;
 
+    // Canvas that tells the player what to do after they selected an action.
+    Canvas promptCv;
+
+    // All the buttons that we will need.
     Button meleeBtn;
     Button rangeBtn;
     Button magicAtkBtn;
     Button magicHealBtn;
-
     Button endTurnBtn;
 
+    // Scripts for the unit that this script is attatched to.
+    // One of these will not be used, depending on whether the GO script is attatched to is a General or not.
     UnitInfo PlayerUI;
     GeneralInfo PlayerGI;
+    bool isGeneral;
 
+    // Scripts for enemies that are attacked. Will be assigned on an as-needed basis.
     UnitInfo EnemyUI;
     GeneralInfo EnemyGI;
 
+    // Range Indicators, my lazy solution to not using the GeneratePathTo function in TileMap.
+    public GameObject meleeRI;
+    public GameObject rangeRI;
+    public GameObject magicAtkRI;
+    public GameObject magicHealRI;
+    GameObject currentRI;
+
+    // Referance to the state controller, so we can ship out the END state when we're done.
     StateController sc;
+
+    // Need a reference to this to ship out usedMagic if we used magic this turn.
+    TroopCombatCanvasStartController tccsc;
+
+    // Reference to the map to access the GeneratePathTo function.
+    // If experiment in ClickableTile works, this won't be needed.
+    //TileMap map;
+
+    // General 4's special variable. Will not be touched except by General 4, and used in the Magic functions.
+    bool generalFourMagic;
+
+    // Int that tells the Update void what action we are doing.
+    public int whichAction;
 
     void Start()
     {
         if (this.gameObject.tag == "PlayerUnit")
         {
             // If this script is attatched to a troop unit, get the troop unit canvas
-            
-            // Canvases
-            startCv = GameObject.Find("TroopCombatCanvas-Start").GetComponent<Canvas>();
-            attackCv = GameObject.Find("TroopCombatCanvas-Start-Attack").GetComponent<Canvas>();
-            magicCv = GameObject.Find("TroopCombatCanvas-Start-Magic").GetComponent<Canvas>();
-
-            // Buttons
-            meleeBtn = attackCv.transform.GetChild(0).GetComponent<Button>();
-            rangeBtn = attackCv.transform.GetChild(1).GetComponent<Button>();
-            magicAtkBtn = magicCv.transform.GetChild(0).GetComponent<Button>();
-            magicHealBtn = magicCv.transform.GetChild(1).GetComponent<Button>();
+            PlayerUI = GetComponent<UnitInfo>();
+            isGeneral = false;
         }
         else if (this.gameObject.tag == "PlayerGeneral")
         {
             // If this script is attatched to a general, get the general canvas
+            PlayerGI = GetComponent<GeneralInfo>();
+            isGeneral = true;
 
-            // Canvases
-            startCv = GameObject.Find("GeneralCombatCanvas-Start").GetComponent<Canvas>();
-            attackCv = GameObject.Find("GeneralCombatCanvas-Start-Attack").GetComponent<Canvas>();
-            magicCv = GameObject.Find("GeneralCombatCanvas-Start-Magic").GetComponent<Canvas>();
-
-            // Buttons
-            meleeBtn = attackCv.transform.GetChild(0).GetComponent<Button>();
-            rangeBtn = attackCv.transform.GetChild(1).GetComponent<Button>();
-            magicAtkBtn = magicCv.transform.GetChild(0).GetComponent<Button>();
-            magicHealBtn = magicCv.transform.GetChild(1).GetComponent<Button>();
+            // If the General is General 4, then add a special magic variable
+            if (this.PlayerGI.generalType == 4)
+            {
+                generalFourMagic = true;
+            }
+            else
+            {
+                generalFourMagic = false;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("An ActionStateController is attatched to an object with a null tag");
         }
 
-        // This button is the same no matter whether the token is a player or general, so it runs outside the if statements
+        // Declaring Variables
+        // Canvases
+        startCv = GameObject.Find("TroopCombatCanvas-Start").GetComponent<Canvas>();
+        attackCv = GameObject.Find("TroopCombatCanvas-Start-Attack").GetComponent<Canvas>();
+        magicCv = GameObject.Find("TroopCombatCanvas-Start-Magic").GetComponent<Canvas>();
+
+        // Buttons
         endTurnBtn = startCv.transform.GetChild(2).GetComponent<Button>();
+        meleeBtn = attackCv.transform.GetChild(0).GetComponent<Button>();
+        rangeBtn = attackCv.transform.GetChild(1).GetComponent<Button>();
+        magicAtkBtn = magicCv.transform.GetChild(0).GetComponent<Button>();
+        magicHealBtn = magicCv.transform.GetChild(1).GetComponent<Button>();
 
         sc = GetComponent<StateController>();
+
+        tccsc = startCv.GetComponent<TroopCombatCanvasStartController>();
+
+        //map = GameObject.Find("Map").GetComponent<TileMap>();
+
+        whichAction = 0;
     }
 
-    public void ActionTriggerUnit(GameObject unit)
+    void Update()
+    {
+        // Testing implementing this code in ClickableTile. Saving it here in case it doesn't work, but it's probably easier there.
+        /*// Checks to make sure that we want to recieve a world click point, which is when an action is active.
+        if (whichAction == 0)
+        {
+            return;
+        }
+
+        // Click function, checks if the mouse is down and if it is over a UI element, which we don't want.
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        {
+            Debug.Log("Action is in progress and click detected");
+            
+        }*/
+
+        // Back function. Basically rewinds everything.
+        if (Input.GetMouseButtonDown(1))
+        {
+            Destroy(currentRI);
+
+            if (whichAction == 1 || whichAction == 2)
+            {
+                attackCv.enabled = true;
+            }
+            else if (whichAction == 3 || whichAction == 4)
+            {
+                magicCv.enabled = true;
+            }
+            else
+            {
+                Debug.LogWarning("ActionStateController go back error, whichAction was not assigned properly");
+            }
+
+            whichAction = 0;
+        }
+    }
+
+    public void ActionTriggerUnit()
     {
         startCv.enabled = true;
-        PlayerUI = unit.GetComponent<UnitInfo>();
         
         // Button Events
-        meleeBtn.onClick.AddListener(UnitMelee);
-        rangeBtn.onClick.AddListener(UnitRanged);
-        magicAtkBtn.onClick.AddListener(UnitMagicAttack);
-        magicHealBtn.onClick.AddListener(UnitMagicHeal);
-
+        meleeBtn.onClick.AddListener(StartUnitMelee);
+        rangeBtn.onClick.AddListener(StartUnitRanged);
+        magicAtkBtn.onClick.AddListener(StartUnitMagicAttack);
+        magicHealBtn.onClick.AddListener(StartUnitMagicHeal);
         endTurnBtn.onClick.AddListener(EndAction);
     }
 
-    public void ActionTriggerGeneral(GameObject unit)
+    public void StartUnitMelee()
     {
-        startCv.enabled = true;
-        PlayerGI = unit.GetComponent<GeneralInfo>();
-
-        // Buttons Events
-        meleeBtn.onClick.AddListener(GeneralMelee);
-        rangeBtn.onClick.AddListener(GeneralRanged);
-        magicAtkBtn.onClick.AddListener(GeneralMagicAttack);
-        magicHealBtn.onClick.AddListener(GeneralMagicHeal);
-
-        endTurnBtn.onClick.AddListener(EndAction);
+        attackCv.enabled = false;
+        currentRI = Instantiate(meleeRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        whichAction = 1;
     }
 
-    public void UnitMelee()
+    public void StartUnitRanged()
     {
-
-        EndAction();
+        attackCv.enabled = false;
+        currentRI = Instantiate(rangeRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        whichAction = 2;
     }
 
-    public void UnitRanged()
+    public void StartUnitMagicAttack()
     {
-        EndAction();
+        magicCv.enabled = false;
+        currentRI = Instantiate(magicAtkRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        whichAction = 3;
     }
 
-    public void UnitMagicAttack()
+    public void StartUnitMagicHeal()
     {
-        EndAction();
+        magicCv.enabled = false;
+        currentRI = Instantiate(magicHealRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+        whichAction = 4;
     }
 
-    public void UnitMagicHeal()
-    {
-        EndAction();
-    }
-
-    public void GeneralMelee()
-    {
-        EndAction();
-    }
-
-    public void GeneralRanged()
-    {
-        EndAction();
-    }
-
-    public void GeneralMagicAttack()
-    {
-        EndAction();
-    }
-
-    public void GeneralMagicHeal()
-    {
-        EndAction();
-    }
+        /*if (generalFourMagic)
+        {
+            // One way bool lock to ensure that this boolean only triggers once
+            generalFourMagic = false;
+        }
+        else
+        {
+            tccsc.usedMagic = true;
+        }*/
 
     public void EndAction()
     {
+        whichAction = 0;
         sc.state = UnitState.END;
     }
 }

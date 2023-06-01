@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 5
   m_Sprite: {fileID: 80670843, guid: 2925ddf9374148b43ade0ac5e971437c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -209,6 +209,7 @@ MonoBehaviour:
   tileX: 0
   tileY: 0
   map: {fileID: 0}
+  movable: 0
 --- !u!114 &2423129993085599171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,3 +251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48bd4e59fe50bf94cae058c044dac17a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  meleeRI: {fileID: 1169220766126084143, guid: b8b2db7b26327c44281888eed5f9b0b0, type: 3}
+  rangeRI: {fileID: 1399905325573486730, guid: a754b797e1716d747885cb757f49dc72, type: 3}
+  magicAtkRI: {fileID: 5606206043755442140, guid: 9e64fc153e806014f93d23f861dee313, type: 3}
+  magicHealRI: {fileID: 1032340553659682501, guid: 38073b66c0f07014b9d918b2c343a821, type: 3}
