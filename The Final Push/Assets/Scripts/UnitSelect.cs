@@ -23,20 +23,20 @@ public class UnitSelect : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            //Debug.Log("Select Clicked");
+            Debug.Log("Select Clicked");
             RaycastHit2D hit = Physics2D.Raycast(new Vector2 (cam.ScreenToWorldPoint(Input.mousePosition).x, cam.ScreenToWorldPoint(Input.mousePosition).y), Vector2.zero, Mathf.Infinity);
             if (hit.collider.tag == "PlayerUnit")
             {
-                //Debug.Log("A unit has been clicked");
+                Debug.Log("A unit has been clicked");
                 if (hit.collider.gameObject != map.selectedUnit)
                 {
-                    //Debug.Log("A new unit has been clicked!");
-                    unit = map.selectedUnit.GetComponent<Unit>();
-                    if (unit.movable)
+                    Debug.Log("A new unit has been clicked!");
+                    if (hit.collider.gameObject.GetComponent<Unit>().movable)
                     {
-                        //Debug.Log("This unit is available to be moved");
+                        Debug.Log("This unit is available to be moved");
                         if (map.selectedUnit != null)
                         {
+                            unit = map.selectedUnit.GetComponent<Unit>();
                             unit.currentPath = null;
                         }
                         map.currentPath = null;

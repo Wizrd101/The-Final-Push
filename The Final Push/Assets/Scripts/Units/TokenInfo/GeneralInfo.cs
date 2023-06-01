@@ -35,10 +35,7 @@ public class GeneralInfo : MonoBehaviour
             atkPower = 5;
         }
         // General 4. Can automatically use magic once without taking out of the magic total.
-        else if (generalType == 4)
-        {
-            // Figure this out later
-        }
+        // General 4's ability is handled in the ActionStateController script, bc it's easier.
         // General 5. Can move extra spaces.
         else if (generalType == 5)
         {
