@@ -17,8 +17,11 @@ public class ClickableTile : MonoBehaviour
 
     void OnMouseUp()
     {
-        sc = map.selectedUnit.GetComponent<StateController>();
-        if (!EventSystem.current.IsPointerOverGameObject() && sc.state == UnitState.MOVING)
+        if (map.selectedUnit != null)
+        {
+            sc = map.selectedUnit.GetComponent<StateController>();
+        }
+        if (map.selectedUnit != null && !EventSystem.current.IsPointerOverGameObject() && sc.state == UnitState.MOVING)
         {
             if (map.selectedUnit.tag == "PlayerUnit")
             {

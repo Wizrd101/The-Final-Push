@@ -14,6 +14,8 @@ public class ActionStateController : MonoBehaviour
     Button magicAtkBtn;
     Button magicHealBtn;
 
+    Button endTurnBtn;
+
     UnitInfo PlayerUI;
     GeneralInfo PlayerGI;
 
@@ -55,6 +57,9 @@ public class ActionStateController : MonoBehaviour
             magicHealBtn = magicCv.transform.GetChild(1).GetComponent<Button>();
         }
 
+        // This button is the same no matter whether the token is a player or general, so it runs outside the if statements
+        endTurnBtn = startCv.transform.GetChild(2).GetComponent<Button>();
+
         sc = GetComponent<StateController>();
     }
 
@@ -68,6 +73,8 @@ public class ActionStateController : MonoBehaviour
         rangeBtn.onClick.AddListener(UnitRanged);
         magicAtkBtn.onClick.AddListener(UnitMagicAttack);
         magicHealBtn.onClick.AddListener(UnitMagicHeal);
+
+        endTurnBtn.onClick.AddListener(EndAction);
     }
 
     public void ActionTriggerGeneral(GameObject unit)
@@ -80,6 +87,8 @@ public class ActionStateController : MonoBehaviour
         rangeBtn.onClick.AddListener(GeneralRanged);
         magicAtkBtn.onClick.AddListener(GeneralMagicAttack);
         magicHealBtn.onClick.AddListener(GeneralMagicHeal);
+
+        endTurnBtn.onClick.AddListener(EndAction);
     }
 
     public void UnitMelee()

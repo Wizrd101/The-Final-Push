@@ -11,6 +11,8 @@ public class Unit : MonoBehaviour
 
     public List<Node> currentPath = null;
 
+    SpriteRenderer unitModelChild;
+
     StateController sc;
 
     Button moveButton;
@@ -25,6 +27,8 @@ public class Unit : MonoBehaviour
 
     bool triggerOnce = false;
 
+    public bool movable;
+
     void Start()
     {
         tileX = (int)transform.position.x;
@@ -34,6 +38,8 @@ public class Unit : MonoBehaviour
         {
             map = GameObject.FindWithTag("Map").GetComponent<TileMap>();
         }
+
+        unitModelChild = GetComponentInChildren<SpriteRenderer>();
         
         sc = GetComponent<StateController>();
 
@@ -70,6 +76,16 @@ public class Unit : MonoBehaviour
             moveButton.onClick.AddListener(MoveNextTile);
         }
 
+        // Mostly just reset code that gets the unit moving after the END state
+        if (sc.state == UnitState.MOVING)
+        {
+            // Reseting the Unit's color back to white so it isn't greyscaled anymore
+            unitModelChild.color = Color.white;
+
+            // Setting the movable variable to true (so the unit can move, duh)
+            movable = true;
+        }
+
         // After the unit is done moving, it automatically triggers the action
         if (sc.state == UnitState.ACTION)
         {
@@ -101,10 +117,17 @@ public class Unit : MonoBehaviour
         if (sc.state == UnitState.END)
         {
             // Make the Unit grayscaled and un-interactable
+
             // Re-enabling the MoveCanvas so another unit can move
             moveCv.enabled = true;
             // Reset TriggerOnce for the next turn
             triggerOnce = false;
+
+            // Greys out the unit so that it's clear that that unit cannot be interacted with anymore
+            unitModelChild.color = Color.grey;
+
+            // Sets the movable variable to false, so the unit cannot move more than once per turn
+            movable = false;
         }
     }
 

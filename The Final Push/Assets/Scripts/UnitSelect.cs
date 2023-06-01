@@ -31,13 +31,17 @@ public class UnitSelect : MonoBehaviour
                 if (hit.collider.gameObject != map.selectedUnit)
                 {
                     //Debug.Log("A new unit has been clicked!");
-                    if (map.selectedUnit != null)
+                    unit = map.selectedUnit.GetComponent<Unit>();
+                    if (unit.movable)
                     {
-                        unit = map.selectedUnit.GetComponent<Unit>();
-                        unit.currentPath = null;
+                        //Debug.Log("This unit is available to be moved");
+                        if (map.selectedUnit != null)
+                        {
+                            unit.currentPath = null;
+                        }
+                        map.currentPath = null;
+                        map.selectedUnit = hit.collider.gameObject;
                     }
-                    map.currentPath = null;
-                    map.selectedUnit = hit.collider.gameObject;
                 }
             }
         }
