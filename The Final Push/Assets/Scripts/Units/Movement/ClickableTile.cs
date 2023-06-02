@@ -71,14 +71,9 @@ public class ClickableTile : MonoBehaviour
                     map.GeneratePathTo(tileX, tileY, actionDist);
 
                     Node clickTarget = map.graph[tileX, tileY];
-                    Debug.Log(clickTarget.x + " " + clickTarget.y);
+                    //Debug.Log(clickTarget.x + " " + clickTarget.y);
 
                     List<Unit> allUnits = new List<Unit>();
-
-                    /*GameObject[] allUnits = null;
-                    allUnits.AddRange(GameObject.FindGameObjectsWithTag("PlayerUnit"));
-                    allUnits.AddRange(GameObject.FindGameObjectsWithTag("PlayerGeneral"));
-                    Debug.Log(allUnits.Length);*/
 
                     foreach (GameObject unit in GameObject.FindGameObjectsWithTag("PlayerUnit"))
                     {
@@ -90,7 +85,7 @@ public class ClickableTile : MonoBehaviour
                         allUnits.Add(unit.GetComponent<Unit>());
                     }
 
-                    Debug.Log(allUnits.Count);
+                    //Debug.Log(allUnits.Count);
                 }
             }
         }
