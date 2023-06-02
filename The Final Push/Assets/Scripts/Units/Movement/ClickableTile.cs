@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class ClickableTile : MonoBehaviour
 {
@@ -66,6 +69,28 @@ public class ClickableTile : MonoBehaviour
                     }
 
                     map.GeneratePathTo(tileX, tileY, actionDist);
+
+                    Node clickTarget = map.graph[tileX, tileY];
+                    Debug.Log(clickTarget.x + " " + clickTarget.y);
+
+                    List<Unit> allUnits = new List<Unit>();
+
+                    /*GameObject[] allUnits = null;
+                    allUnits.AddRange(GameObject.FindGameObjectsWithTag("PlayerUnit"));
+                    allUnits.AddRange(GameObject.FindGameObjectsWithTag("PlayerGeneral"));
+                    Debug.Log(allUnits.Length);*/
+
+                    foreach (GameObject unit in GameObject.FindGameObjectsWithTag("PlayerUnit"))
+                    {
+                        allUnits.Add(unit.GetComponent<Unit>());
+                    }
+
+                    foreach (GameObject unit in GameObject.FindGameObjectsWithTag("PlayerGeneral"))
+                    {
+                        allUnits.Add(unit.GetComponent<Unit>());
+                    }
+
+                    Debug.Log(allUnits.Count);
                 }
             }
         }

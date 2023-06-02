@@ -27,6 +27,7 @@ public class ActionStateController : MonoBehaviour
     // One of these will not be used, depending on whether the GO script is attatched to is a General or not.
     UnitInfo PlayerUI;
     GeneralInfo PlayerGI;
+    bool isGeneral;
 
     // Scripts for enemies that are attacked. Will be assigned on an as-needed basis.
     UnitInfo EnemyUI;
@@ -61,11 +62,13 @@ public class ActionStateController : MonoBehaviour
         {
             // If this script is attatched to a troop unit, get the troop unit canvas
             PlayerUI = GetComponent<UnitInfo>();
+            isGeneral = false;
         }
         else if (this.gameObject.tag == "PlayerGeneral")
         {
             // If this script is attatched to a general, get the general canvas
             PlayerGI = GetComponent<GeneralInfo>();
+            isGeneral = true;
 
             // If the General is General 4, then add a special magic variable
             if (this.PlayerGI.generalType == 4)
@@ -218,25 +221,21 @@ public class ActionStateController : MonoBehaviour
 
     public void ExecuteMelee()
     {
+        promptCv.enabled = false;
         EndAction();
     }
 
     public void ExecuteRange()
     {
+        promptCv.enabled = false;
         EndAction();
     }
 
     public void ExecuteMagicAtk()
     {
-        EndAction();
-    }
+        promptCv.enabled = false;
 
-    public void ExecuteMagicHeal()
-    {
-        EndAction();
-    }
-
-        /*if (generalFourMagic)
+        if (generalFourMagic)
         {
             // One way bool lock to ensure that this boolean only triggers once
             generalFourMagic = false;
@@ -244,7 +243,27 @@ public class ActionStateController : MonoBehaviour
         else
         {
             tccsc.usedMagic = true;
-        }*/
+        }
+
+        EndAction();
+    }
+
+    public void ExecuteMagicHeal()
+    {
+        promptCv.enabled = false;
+
+        if (generalFourMagic)
+        {
+            // One way bool lock to ensure that this boolean only triggers once
+            generalFourMagic = false;
+        }
+        else
+        {
+            tccsc.usedMagic = true;
+        }
+
+        EndAction();
+    }
 
     public void EndAction()
     {

@@ -13,7 +13,7 @@ public class TileMap : MonoBehaviour
     public TileType[] tileTypes;
 
     int[,] tiles;
-    Node[,] graph;
+    public Node[,] graph;
 
     public List<Node> currentPath;
 
