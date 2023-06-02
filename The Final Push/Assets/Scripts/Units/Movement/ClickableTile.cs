@@ -50,15 +50,15 @@ public class ClickableTile : MonoBehaviour
 
                     if (asc.whichAction == 1)
                     {
-                        actionDist = 1;
+                        actionDist = 2;
                     }
                     else if (asc.whichAction == 2 || asc.whichAction == 4)
                     {
-                        actionDist = 2;
+                        actionDist = 3;
                     }
                     else if (asc.whichAction == 3)
                     {
-                        actionDist = 4;
+                        actionDist = 5;
                     }
                     else
                     {

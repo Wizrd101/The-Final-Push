@@ -6,8 +6,8 @@ TagManager:
   tags:
   - PlayerUnit
   - Map
-  - MoveButton
   - CamParent
+  - PlayerGeneral
   layers:
   - Default
   - TransparentFX
