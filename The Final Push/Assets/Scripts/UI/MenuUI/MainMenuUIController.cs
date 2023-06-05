@@ -10,22 +10,22 @@ public class MainMenuUIController : MonoBehaviour
         
     }
 
-    void StartGame()
+    public void  StartGame()
     {
         SceneManager.LoadScene("intro");
     }
 
-    void HowToPlay()
+    public void HowToPlay()
     {
         SceneManager.LoadScene("How to Play");
     }
 
-    void Credits()
+    public void Credits()
     {
         SceneManager.LoadScene("credits");
     }
 
-    void QuitGame()
+    public void QuitGame()
     {
         Application.Quit();
     }
