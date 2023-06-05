@@ -103,23 +103,31 @@ public class Unit : MonoBehaviour
             {
                 if (!triggerOnce2)
                 {
-                    tempMoveRI = Instantiate(movementRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
                     triggerOnce2 = true;
-                    Debug.Log("tempMoveRI spawned");
+                    tempMoveRI = Instantiate(movementRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+                    //Debug.Log("tempMoveRI spawned");
                 }
             }
             // If not, and tempMoveRI exists, destroy it
             else if (tempMoveRI)
             {
                 triggerOnce2 = false;
-                Debug.Log("tempMoveRI destroyed");
                 Destroy(tempMoveRI);
+                //Debug.Log("tempMoveRI destroyed");
             }
         }
 
         // After the unit is done moving, it automatically triggers the action
         if (sc.state == UnitState.ACTION)
         {
+            // If the tempMoveRI still exists, we need to destroy it
+            if (tempMoveRI)
+            {
+                triggerOnce2 = false;
+                Destroy(tempMoveRI);
+                //Debug.Log("tempMoveRI destroyed, but in Action State");
+            }
+
             // Disabling the Move Canvas, so the button doesn't show
             moveCv.enabled = false;
 

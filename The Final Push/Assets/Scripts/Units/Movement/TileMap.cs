@@ -642,6 +642,8 @@ public class TileMap : MonoBehaviour
         // Flips the path of nodes around, so that we go to the target, not from the target
         currentPath.Reverse();
 
+        Debug.Log("Path Length: " + currentPath.Count);
+        
         if (currentPath.Count > maxDist)
         {
             Debug.Log("Point Out of Range");

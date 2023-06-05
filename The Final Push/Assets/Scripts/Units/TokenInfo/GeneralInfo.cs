@@ -14,7 +14,7 @@ public class GeneralInfo : MonoBehaviour
 
     public int atkPower = 3;
 
-    public int moveDist = 6;
+    public int moveDist = 7;
 
     private void Start()
     {
@@ -39,7 +39,7 @@ public class GeneralInfo : MonoBehaviour
         // General 5. Can move extra spaces.
         else if (generalType == 5)
         {
-            moveDist = 8;
+            moveDist = 9;
         }
         // Null General, something is wrong. Forgot to set the general's type or something.
         else if (generalType == 0)
