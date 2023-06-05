@@ -1,8 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.SearchService;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class ClickableTile : MonoBehaviour
 {
@@ -50,15 +53,15 @@ public class ClickableTile : MonoBehaviour
 
                     if (asc.whichAction == 1)
                     {
-                        actionDist = 1;
+                        actionDist = 2;
                     }
                     else if (asc.whichAction == 2 || asc.whichAction == 4)
                     {
-                        actionDist = 2;
+                        actionDist = 3;
                     }
                     else if (asc.whichAction == 3)
                     {
-                        actionDist = 4;
+                        actionDist = 5;
                     }
                     else
                     {
@@ -66,6 +69,23 @@ public class ClickableTile : MonoBehaviour
                     }
 
                     map.GeneratePathTo(tileX, tileY, actionDist);
+
+                    Node clickTarget = map.graph[tileX, tileY];
+                    //Debug.Log(clickTarget.x + " " + clickTarget.y);
+
+                    List<Unit> allUnits = new List<Unit>();
+
+                    foreach (GameObject unit in GameObject.FindGameObjectsWithTag("PlayerUnit"))
+                    {
+                        allUnits.Add(unit.GetComponent<Unit>());
+                    }
+
+                    foreach (GameObject unit in GameObject.FindGameObjectsWithTag("PlayerGeneral"))
+                    {
+                        allUnits.Add(unit.GetComponent<Unit>());
+                    }
+
+                    //Debug.Log(allUnits.Count);
                 }
             }
         }

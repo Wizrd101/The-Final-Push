@@ -13,7 +13,7 @@ public class TileMap : MonoBehaviour
     public TileType[] tileTypes;
 
     int[,] tiles;
-    Node[,] graph;
+    public Node[,] graph;
 
     public List<Node> currentPath;
 
@@ -542,23 +542,31 @@ public class TileMap : MonoBehaviour
 
         selectedUnit.GetComponent<Unit>().currentPath = null;
 
+        // If the Unit cannot enter the tile we clicked on (like a mountain) return out
         if (UnitCanEnterTile(x, y) == false)
         {
             return;
         }
 
+        // Setting two Dictionaries of Nodes...
+        // dist is the amount of distance between two nodes, which prev is all of the nodes that we have visited
         Dictionary<Node, float> dist = new Dictionary<Node, float>();
         Dictionary<Node, Node> prev = new Dictionary<Node, Node>();
 
+        // ...And a list of unvisited Nodes
         List<Node> unvisited = new List<Node>();
 
+        // The Source Node is where the selected Unit is
         Node source = graph[selectedUnit.GetComponent<Unit>().tileX, selectedUnit.GetComponent<Unit>().tileY];
 
+        // The target is a Node on the list of Nodes graph
         Node target = graph[x, y];
 
+        // resets the current dist to null (because we're starting at the start), and prev to empty, so that we can fill it again.
         dist[source] = 0;
         prev[source] = null;
 
+        // Simple loop that sets the distance to every node to infinity and adds it to the list of unvisited nodes
         foreach(Node v in graph)
         {
             if (v != source)
@@ -570,13 +578,16 @@ public class TileMap : MonoBehaviour
             unvisited.Add(v);
         }
 
+        // While loop that will trigger as long as the pathfinding hasn't hit every node yet
         while(unvisited.Count > 0)
         {
             // Short and slow solution
             //Node u = unvisited.OrderBy(n => dist[n]).First();
 
             // More complex, but faster solution
+            // Temporarily sets the node to null
             Node u = null;
+            // Detects that null node
             foreach(Node possibleU in unvisited)
             {
                 if (u == null || dist[possibleU] < dist[u])
@@ -585,13 +596,16 @@ public class TileMap : MonoBehaviour
                 }
             }
 
+            // Remove the node from the unvisited list, because we just visited it
             unvisited.Remove(u);
 
+            // If u is where we want to go, we can stop the while loop
             if (u == target)
             {
                 break;
             }
             
+            // Assigns a cost to each way that a unit can move in a tile
             foreach(Node v in u.edges)
             {
                 float alt = dist[u] + CostToEnterTile(v.x, v.y);
@@ -609,18 +623,23 @@ public class TileMap : MonoBehaviour
             return;
         }
 
+        // Sets the currentPath equal to a list of nodes
         currentPath = new List<Node>();
 
+        // Sets a temporary cur value for our target
         Node cur = target;
 
+        // While the path hasn't run out of previous options, add another one and reset the prev Dictionary
         while (prev[cur] != null)
         {
             currentPath.Add(cur);
             cur = prev[cur];
         }
 
+        // Adds the source, which is required if only moving one unit is desired
         currentPath.Add(source);
 
+        // Flips the path of nodes around, so that we go to the target, not from the target
         currentPath.Reverse();
 
         if (currentPath.Count > maxDist)

@@ -16,6 +16,7 @@ public class Unit : MonoBehaviour
     StateController sc;
 
     Button moveButton;
+    Button skipMoveButton;
 
     ActionStateController asc;
 
@@ -24,8 +25,14 @@ public class Unit : MonoBehaviour
     CameraMove camParMoveScript;
 
     Canvas moveCv;
+    Canvas promptCv;
+
+    public GameObject movementRI;
+    GameObject tempMoveRI;
 
     bool triggerOnce = false;
+    bool triggerOnce1 = false;
+    bool triggerOnce2 = false;
 
     public bool movable;
 
@@ -43,7 +50,8 @@ public class Unit : MonoBehaviour
         
         sc = GetComponent<StateController>();
 
-        moveButton = GameObject.FindWithTag("MoveButton").GetComponent<Button>();
+        moveButton = GameObject.Find("MoveButton").GetComponent<Button>();
+        skipMoveButton = GameObject.Find("SkipMoveButton").GetComponent<Button>();
 
         asc = GetComponent<ActionStateController>();
 
@@ -52,6 +60,7 @@ public class Unit : MonoBehaviour
         camParMoveScript = camPar.GetComponent<CameraMove>();
 
         moveCv = GameObject.Find("MoveCanvas").GetComponent<Canvas>();
+        promptCv = GameObject.Find("TroopCombatCanvas-ActionPrompt").GetComponent<Canvas>();
     }
 
     void Update()
@@ -74,6 +83,7 @@ public class Unit : MonoBehaviour
         if (map.selectedUnit == this.gameObject)
         {
             moveButton.onClick.AddListener(MoveNextTile);
+            skipMoveButton.onClick.AddListener(SkipMove);
         }
 
         // Mostly just reset code that gets the unit moving after the END state
@@ -84,6 +94,27 @@ public class Unit : MonoBehaviour
 
             // Setting the movable variable to true (so the unit can move, duh)
             movable = true;
+
+            // Reseting the second triggerOnce
+            triggerOnce1 = false;
+
+            // If this unit is selected, display the Range Indicator for movement
+            if (map.selectedUnit == this.gameObject)
+            {
+                if (!triggerOnce2)
+                {
+                    tempMoveRI = Instantiate(movementRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+                    triggerOnce2 = true;
+                    Debug.Log("tempMoveRI spawned");
+                }
+            }
+            // If not, and tempMoveRI exists, destroy it
+            else if (tempMoveRI)
+            {
+                triggerOnce2 = false;
+                Debug.Log("tempMoveRI destroyed");
+                Destroy(tempMoveRI);
+            }
         }
 
         // After the unit is done moving, it automatically triggers the action
@@ -102,10 +133,7 @@ public class Unit : MonoBehaviour
             if (!triggerOnce)
             {
                 triggerOnce = true;
-                if (this.gameObject.tag == "PlayerUnit")
-                {
-                    asc.ActionTriggerUnit();
-                }
+                asc.ActionTriggerUnit();
             }
         }
 
@@ -114,8 +142,9 @@ public class Unit : MonoBehaviour
         {
             // Make the Unit grayscaled and un-interactable
 
-            // Re-enabling the MoveCanvas so another unit can move
-            moveCv.enabled = true;
+            // Disabling the prompt canvas because we're done with actions
+            promptCv.enabled = false;
+
             // Reset TriggerOnce for the next turn
             triggerOnce = false;
 
@@ -127,6 +156,13 @@ public class Unit : MonoBehaviour
 
             // Unlocks the camera so we can move it again
             camParMoveScript.lockCam = false;
+
+            // Removes this object from selected object in the TileMap script
+            if (!triggerOnce1)
+            {
+                map.selectedUnit = null;
+                triggerOnce1 = true;
+            }
         }
     }
 
@@ -151,6 +187,12 @@ public class Unit : MonoBehaviour
             }
         }
 
+        sc.state = UnitState.ACTION;
+    }
+
+    public void SkipMove()
+    {
+        currentPath = null;
         sc.state = UnitState.ACTION;
     }
 }

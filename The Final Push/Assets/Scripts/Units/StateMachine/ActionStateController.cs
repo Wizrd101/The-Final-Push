@@ -20,6 +20,8 @@ public class ActionStateController : MonoBehaviour
     Button magicAtkBtn;
     Button magicHealBtn;
     Button endTurnBtn;
+    
+    Button confirmActionBtn;
 
     // Scripts for the unit that this script is attatched to.
     // One of these will not be used, depending on whether the GO script is attatched to is a General or not.
@@ -89,6 +91,8 @@ public class ActionStateController : MonoBehaviour
         attackCv = GameObject.Find("TroopCombatCanvas-Start-Attack").GetComponent<Canvas>();
         magicCv = GameObject.Find("TroopCombatCanvas-Start-Magic").GetComponent<Canvas>();
 
+        promptCv = GameObject.Find("TroopCombatCanvas-ActionPrompt").GetComponent<Canvas>();
+
         // Buttons
         endTurnBtn = startCv.transform.GetChild(2).GetComponent<Button>();
         meleeBtn = attackCv.transform.GetChild(0).GetComponent<Button>();
@@ -96,11 +100,11 @@ public class ActionStateController : MonoBehaviour
         magicAtkBtn = magicCv.transform.GetChild(0).GetComponent<Button>();
         magicHealBtn = magicCv.transform.GetChild(1).GetComponent<Button>();
 
+        confirmActionBtn = promptCv.transform.GetChild(2).GetComponent<Button>();
+
         sc = GetComponent<StateController>();
 
         tccsc = startCv.GetComponent<TroopCombatCanvasStartController>();
-
-        //map = GameObject.Find("Map").GetComponent<TileMap>();
 
         whichAction = 0;
     }
@@ -108,14 +112,14 @@ public class ActionStateController : MonoBehaviour
     void Update()
     {
         // Testing implementing this code in ClickableTile. Saving it here in case it doesn't work, but it's probably easier there.
-        /*// Checks to make sure that we want to recieve a world click point, which is when an action is active.
+        // Checks to make sure that we want to recieve a world click point, which is when an action is active.
         if (whichAction == 0)
         {
             return;
         }
 
         // Click function, checks if the mouse is down and if it is over a UI element, which we don't want.
-        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
+        /*if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             Debug.Log("Action is in progress and click detected");
             
@@ -125,6 +129,8 @@ public class ActionStateController : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             Destroy(currentRI);
+
+            promptCv.enabled = false;
 
             if (whichAction == 1 || whichAction == 2)
             {
@@ -160,6 +166,7 @@ public class ActionStateController : MonoBehaviour
         attackCv.enabled = false;
         currentRI = Instantiate(meleeRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         whichAction = 1;
+        SetConfirmListener();
     }
 
     public void StartUnitRanged()
@@ -167,6 +174,7 @@ public class ActionStateController : MonoBehaviour
         attackCv.enabled = false;
         currentRI = Instantiate(rangeRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         whichAction = 2;
+        SetConfirmListener();
     }
 
     public void StartUnitMagicAttack()
@@ -174,6 +182,7 @@ public class ActionStateController : MonoBehaviour
         magicCv.enabled = false;
         currentRI = Instantiate(magicAtkRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         whichAction = 3;
+        SetConfirmListener();
     }
 
     public void StartUnitMagicHeal()
@@ -181,9 +190,52 @@ public class ActionStateController : MonoBehaviour
         magicCv.enabled = false;
         currentRI = Instantiate(magicHealRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
         whichAction = 4;
+        SetConfirmListener();
     }
 
-        /*if (generalFourMagic)
+    public void SetConfirmListener()
+    {
+        promptCv.enabled = true;
+
+        if (whichAction == 1)
+        {
+            confirmActionBtn.onClick.AddListener(ExecuteMelee);
+        }
+        else if (whichAction == 2)
+        {
+            confirmActionBtn.onClick.AddListener(ExecuteRange);
+        }
+        else if (whichAction == 3)
+        {
+            confirmActionBtn.onClick.AddListener(ExecuteMagicAtk);
+        }
+        else if (whichAction == 4)
+        {
+            confirmActionBtn.onClick.AddListener(ExecuteMagicHeal);
+        }
+        else
+        {
+            Debug.LogError("SetConfirmListener error: whichAction not transfered properly");
+        }
+    }
+
+    public void ExecuteMelee()
+    {
+        promptCv.enabled = false;
+        EndAction();
+    }
+
+    public void ExecuteRange()
+    {
+        promptCv.enabled = false;
+        EndAction();
+    }
+
+    public void ExecuteMagicAtk()
+    {
+        promptCv.enabled = false;
+
+        if (generalFourMagic)
         {
             // One way bool lock to ensure that this boolean only triggers once
             generalFourMagic = false;
@@ -191,11 +243,38 @@ public class ActionStateController : MonoBehaviour
         else
         {
             tccsc.usedMagic = true;
-        }*/
+        }
+
+        EndAction();
+    }
+
+    public void ExecuteMagicHeal()
+    {
+        promptCv.enabled = false;
+
+        if (generalFourMagic)
+        {
+            // One way bool lock to ensure that this boolean only triggers once
+            generalFourMagic = false;
+        }
+        else
+        {
+            tccsc.usedMagic = true;
+        }
+
+        EndAction();
+    }
 
     public void EndAction()
     {
+        meleeBtn.onClick.RemoveListener(StartUnitMelee);
+        rangeBtn.onClick.RemoveListener(StartUnitRanged);
+        magicAtkBtn.onClick.RemoveListener(StartUnitMagicAttack);
+        magicHealBtn.onClick.RemoveListener(StartUnitMagicHeal);
+        endTurnBtn.onClick.RemoveListener(EndAction);
+
         whichAction = 0;
+        promptCv.enabled = false;
         sc.state = UnitState.END;
     }
 }

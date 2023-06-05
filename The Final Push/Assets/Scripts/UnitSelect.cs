@@ -25,7 +25,7 @@ public class UnitSelect : MonoBehaviour
         {
             //Debug.Log("Select Clicked");
             RaycastHit2D hit = Physics2D.Raycast(new Vector2 (cam.ScreenToWorldPoint(Input.mousePosition).x, cam.ScreenToWorldPoint(Input.mousePosition).y), Vector2.zero, Mathf.Infinity);
-            if (hit.collider.tag == "PlayerUnit")
+            if (hit.collider.tag == "PlayerUnit" || hit.collider.tag == "PlayerGeneral")
             {
                 //Debug.Log("A unit has been clicked");
                 if (hit.collider.gameObject != map.selectedUnit)
