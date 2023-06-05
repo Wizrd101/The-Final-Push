@@ -23,8 +23,8 @@ public class UnitInformationDisplay : MonoBehaviour
 
     void Update()
     {
-        RaycastHit2D hit = Physics2D.Raycast(Camera.main.transform.position, Camera.main.ScreenToWorldPoint(transform.position));
-        Debug.Log("hit outputs: " + Camera.main.transform.position + " " + Camera.main.ScreenToWorldPoint(transform.position));
+        RaycastHit2D hit = Physics2D.Raycast(Camera.main.transform.position, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+        //Debug.Log("hit outputs: " + Camera.main.transform.position + " " + Camera.main.ScreenToWorldPoint(Input.mousePosition));
         if (hit.collider)
         {
             Debug.Log("Triggered display");
@@ -33,6 +33,7 @@ public class UnitInformationDisplay : MonoBehaviour
         }
         else
         {
+
             dispCanvas.enabled = false;
         }
     }
