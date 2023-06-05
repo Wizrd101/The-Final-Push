@@ -47,14 +47,17 @@ public class ActionStateController : MonoBehaviour
     TroopCombatCanvasStartController tccsc;
 
     // Reference to the map to access the GeneratePathTo function.
-    // If experiment in ClickableTile works, this won't be needed.
-    //TileMap map;
+    TileMap map;
 
     // General 4's special variable. Will not be touched except by General 4, and used in the Magic functions.
     bool generalFourMagic;
 
     // Int that tells the Update void what action we are doing.
     public int whichAction;
+
+    // Need this to determine critical hits
+    int critChance;
+    bool crit;
 
     void Start()
     {
@@ -106,6 +109,8 @@ public class ActionStateController : MonoBehaviour
 
         tccsc = startCv.GetComponent<TroopCombatCanvasStartController>();
 
+        map = GameObject.FindWithTag("Map").GetComponent<TileMap>();
+
         whichAction = 0;
     }
 
@@ -146,6 +151,36 @@ public class ActionStateController : MonoBehaviour
             }
 
             whichAction = 0;
+        }
+
+        // If the player is targeting the wrong object, the confirm button will not be enabled
+        if (promptCv.enabled)
+        {
+            if (map.selectedUnit)
+            {
+                if (whichAction == 4)
+                {
+                    if (map.selectedUnit.tag == "PlayerUnit" || map.selectedUnit.tag == "PlayerGeneral")
+                    {
+                        confirmActionBtn.interactable = true;
+                    }
+                    else
+                    {
+                        confirmActionBtn.interactable = false;
+                    } 
+                }
+                else
+                {
+                    if (map.selectedUnit.tag == "EnemyUnit" || map.selectedUnit.tag == "EnemyGeneral")
+                    {
+                        confirmActionBtn.interactable = true;
+                    }
+                    else
+                    {
+                        confirmActionBtn.interactable = false;
+                    }
+                }
+            }
         }
     }
 
@@ -221,18 +256,143 @@ public class ActionStateController : MonoBehaviour
 
     public void ExecuteMelee()
     {
+        critChance = Random.Range(1, 5);
+        if (critChance == 1)
+        {
+            crit = true;
+        }
+        else
+        {
+            crit = false;
+        }
+        if (map.selectedUnit.tag == "EnemyUnit")
+        {
+            EnemyUI = map.selectedUnit.GetComponent<UnitInfo>();
+            if (this.tag == "PlayerUnit")
+            {
+                EnemyUI.curHealth -= PlayerUI.atkPower;
+                if (crit)
+                {
+                    EnemyUI.curHealth -= PlayerUI.atkPower;
+                }
+            }
+            else
+            {
+                EnemyUI.curHealth -= PlayerGI.atkPower;
+                if (crit)
+                {
+                    EnemyUI.curHealth -= PlayerGI.atkPower;
+                }
+            }
+        }
+        else
+        {
+            EnemyGI = map.selectedUnit.GetComponent<GeneralInfo>();
+            if (this.tag == "PlayerUnit")
+            {
+                EnemyGI.curHealth -= PlayerUI.atkPower;
+                if (crit)
+                {
+                    EnemyGI.curHealth -= PlayerUI.atkPower;
+                }
+            }
+            else
+            {
+                EnemyGI.curHealth -= PlayerGI.atkPower;
+                if (crit)
+                {
+                    EnemyGI.curHealth -= PlayerGI.atkPower;
+                }
+            }
+        }
+
         promptCv.enabled = false;
         EndAction();
     }
 
     public void ExecuteRange()
     {
+        critChance = Random.Range(1, 8);
+        if (critChance == 1)
+        {
+            crit = true;
+        }
+        else
+        {
+            crit = false;
+        }
+        if (map.selectedUnit.tag == "EnemyUnit")
+        {
+            EnemyUI = map.selectedUnit.GetComponent<UnitInfo>();
+            if (this.tag == "PlayerUnit")
+            {
+                EnemyUI.curHealth -= PlayerUI.atkPower;
+                if (crit)
+                {
+                    EnemyUI.curHealth -= PlayerUI.atkPower;
+                }
+            }
+            else
+            {
+                EnemyUI.curHealth -= PlayerGI.atkPower;
+                if (crit)
+                {
+                    EnemyUI.curHealth -= PlayerGI.atkPower;
+                }
+            }
+        }
+        else
+        {
+            EnemyGI = map.selectedUnit.GetComponent<GeneralInfo>();
+            if (this.tag == "PlayerUnit")
+            {
+                EnemyGI.curHealth -= PlayerUI.atkPower;
+                if (crit)
+                {
+                    EnemyGI.curHealth -= PlayerUI.atkPower;
+                }
+            }
+            else
+            {
+                EnemyGI.curHealth -= PlayerGI.atkPower;
+                if (crit)
+                {
+                    EnemyGI.curHealth -= PlayerGI.atkPower;
+                }
+            }
+        }
+
         promptCv.enabled = false;
         EndAction();
     }
 
     public void ExecuteMagicAtk()
     {
+        if (map.selectedUnit.tag == "EnemyUnit")
+        {
+            EnemyUI = map.selectedUnit.GetComponent<UnitInfo>();
+            if (this.tag == "PlayerUnit")
+            {
+                EnemyUI.curHealth -= PlayerUI.atkPower;
+            }
+            else
+            {
+                EnemyUI.curHealth -= PlayerGI.atkPower;
+            }
+        }
+        else
+        {
+            EnemyGI = map.selectedUnit.GetComponent<GeneralInfo>();
+            if (this.tag == "PlayerUnit")
+            {
+                EnemyGI.curHealth -= PlayerUI.atkPower;
+            }
+            else
+            {
+                EnemyGI.curHealth -= PlayerGI.atkPower;
+            }
+        }
+
         promptCv.enabled = false;
 
         if (generalFourMagic)
@@ -248,8 +408,34 @@ public class ActionStateController : MonoBehaviour
         EndAction();
     }
 
+    // Healing fudges the rules to call the selected (friendly) unit an enemy, but I don't want to make another variable
     public void ExecuteMagicHeal()
     {
+        if (map.selectedUnit.tag == "PlayerUnit")
+        {
+            EnemyUI = map.selectedUnit.GetComponent<UnitInfo>();
+            if (this.tag == "PlayerUnit")
+            {
+                EnemyUI.curHealth -= PlayerUI.atkPower;
+            }
+            else
+            {
+                EnemyUI.curHealth -= PlayerGI.atkPower;
+            }
+        }
+        else
+        {
+            EnemyGI = map.selectedUnit.GetComponent<GeneralInfo>();
+            if (this.tag == "PlayerUnit")
+            {
+                EnemyGI.curHealth -= PlayerUI.atkPower;
+            }
+            else
+            {
+                EnemyGI.curHealth -= PlayerGI.atkPower;
+            }
+        }
+
         promptCv.enabled = false;
 
         if (generalFourMagic)

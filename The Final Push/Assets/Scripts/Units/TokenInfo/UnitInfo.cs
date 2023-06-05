@@ -32,7 +32,7 @@ public class UnitInfo : MonoBehaviour
             Debug.LogWarning("You forgot to set the Unit Type idiot");
         }
 
-        moveDist = 5;
+        moveDist = 6;
 
         curHealth = maxHealth;
     }
