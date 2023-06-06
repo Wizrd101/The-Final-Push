@@ -8,6 +8,8 @@ public class MoveCanvasController : MonoBehaviour
 
     TileMap map;
 
+    int counter;
+
     void Start()
     {
         moveCanvas = GetComponent<Canvas>();
@@ -16,13 +18,38 @@ public class MoveCanvasController : MonoBehaviour
 
     void Update()
     {
-        if (map.selectedUnit == null)
+        List<StateController> allSC = new List<StateController>();
+
+        foreach (GameObject unit in GameObject.FindGameObjectsWithTag("PlayerUnit"))
         {
-            moveCanvas.enabled = false;
+            allSC.Add(unit.GetComponent<StateController>());
         }
-        else
+
+        foreach (GameObject unit in GameObject.FindGameObjectsWithTag("PlayerGeneral"))
         {
-            moveCanvas.enabled = true;
+            allSC.Add(unit.GetComponent<StateController>());
         }
+
+        foreach (StateController sc in allSC)
+        {
+            if (sc.state == UnitState.ACTION)
+            {
+                counter++;
+            }
+        }
+
+        if (counter == 0)
+        {
+            if (map.selectedUnit == null)
+            {
+                moveCanvas.enabled = false;
+            }
+            else
+            {
+                moveCanvas.enabled = true;
+            }
+        }
+
+        counter = 0;
     }
 }
