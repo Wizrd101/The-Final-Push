@@ -8,7 +8,7 @@ public class UnitInfo : MonoBehaviour
     // 0 is unset, which is an error, and Generals have their own script.
     public int unitType = 0;
 
-    int maxHealth = 1;
+    public int maxHealth = 1;
     public int curHealth = 1;
 
     public int atkPower;

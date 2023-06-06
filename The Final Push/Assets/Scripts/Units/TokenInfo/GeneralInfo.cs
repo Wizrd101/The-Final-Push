@@ -9,7 +9,7 @@ public class GeneralInfo : MonoBehaviour
     public int generalType = 0;
 
     // Keep curHealth on 1, because if you don't then update will destroy it immediately.
-    int maxHealth = 15;
+    public int maxHealth = 15;
     public int curHealth = 1;
 
     public int atkPower = 3;

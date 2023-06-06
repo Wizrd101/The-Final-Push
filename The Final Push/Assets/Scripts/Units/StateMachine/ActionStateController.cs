@@ -50,7 +50,7 @@ public class ActionStateController : MonoBehaviour
     TileMap map;
 
     // General 4's special variable. Will not be touched except by General 4, and used in the Magic functions.
-    bool generalFourMagic;
+    public bool generalFourMagic;
 
     // Int that tells the Update void what action we are doing.
     public int whichAction;
