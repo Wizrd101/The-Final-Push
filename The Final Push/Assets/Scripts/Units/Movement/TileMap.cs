@@ -618,6 +618,7 @@ public class TileMap : MonoBehaviour
             }
         }
 
+        // If we hit the target, stop
         if (prev[target] == null)
         {
             return;

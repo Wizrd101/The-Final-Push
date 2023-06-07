@@ -61,7 +61,6 @@ public class SingleUnitInfoDisplay : MonoBehaviour
     {
         if (!dispCanvas.enabled && map.selectedUnit == this.gameObject)
         {
-            Debug.Log("Selected enable");
             dispCanvas.enabled = true;
             GenerateDisplayInfo();
         }
@@ -164,7 +163,7 @@ public class SingleUnitInfoDisplay : MonoBehaviour
             friendlyText.color = Color.red;
         }
 
-        if (unitType == 6)
+        if (unitType == 6 && friendly)
         {
             magicText.enabled = true;
             if (asc.generalFourMagic)
