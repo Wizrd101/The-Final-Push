@@ -16,7 +16,7 @@ public class GeneralInfo : MonoBehaviour
 
     public int moveDist = 7;
 
-    private void Start()
+    void Start()
     {
         // General 1. Generally better stats.
         if (generalType == 1)

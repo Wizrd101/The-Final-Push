@@ -30,6 +30,11 @@ public class Unit : MonoBehaviour
     public GameObject movementRI;
     GameObject tempMoveRI;
 
+    TurnController tc;
+
+    bool isPlayer;
+    bool isBuilding;
+
     bool triggerOnce = false;
     bool triggerOnce1 = false;
     bool triggerOnce2 = false;
@@ -61,6 +66,27 @@ public class Unit : MonoBehaviour
 
         moveCv = GameObject.Find("MoveCanvas").GetComponent<Canvas>();
         promptCv = GameObject.Find("TroopCombatCanvas-ActionPrompt").GetComponent<Canvas>();
+
+        tc = GameObject.Find("TurnController").GetComponent<TurnController>();
+
+        if (this.gameObject.tag == "PlayerUnit" ||  this.gameObject.tag == "PlayerGeneral")
+        {
+            isPlayer = true;
+        }
+        else
+        {
+            isPlayer = false;
+        }
+
+        if (this.gameObject.tag == "EnemyBuilding")
+        {
+            isBuilding = true;
+            movable = false;
+        }
+        else
+        {
+            isBuilding = false;
+        }
     }
 
     void Update()
@@ -86,88 +112,111 @@ public class Unit : MonoBehaviour
             skipMoveButton.onClick.AddListener(SkipMove);
         }
 
-        // Mostly just reset code that gets the unit moving after the END state
-        if (sc.state == UnitState.MOVING)
+        if (!isBuilding)
         {
-            // Reseting the Unit's color back to white so it isn't greyscaled anymore
-            unitModelChild.color = Color.white;
-
-            // Setting the movable variable to true (so the unit can move, duh)
-            movable = true;
-
-            // Reseting the second triggerOnce
-            triggerOnce1 = false;
-
-            // If this unit is selected, display the Range Indicator for movement
-            if (map.selectedUnit == this.gameObject)
+            // Mostly just reset code that gets the unit moving after the END state
+            if (sc.state == UnitState.MOVING)
             {
-                if (!triggerOnce2)
+                // Reseting the Unit's color back to white so it isn't greyscaled anymore
+                unitModelChild.color = Color.white;
+
+                // Setting the movable variable to true (so the unit can move, duh)
+                movable = true;
+
+                // Code that the enemies don't need
+                if (isPlayer)
                 {
-                    triggerOnce2 = true;
-                    tempMoveRI = Instantiate(movementRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
-                    //Debug.Log("tempMoveRI spawned");
+                    // Reseting the second triggerOnce
+                    triggerOnce1 = false;
+
+                    // If this unit is selected, display the Range Indicator for movement
+                    if (map.selectedUnit == this.gameObject)
+                    {
+                        if (!triggerOnce2)
+                        {
+                            triggerOnce2 = true;
+                            tempMoveRI = Instantiate(movementRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+                            //Debug.Log("tempMoveRI spawned");
+                        }
+                    }
+                    // If not, and tempMoveRI exists, destroy it
+                    else if (tempMoveRI)
+                    {
+                        triggerOnce2 = false;
+                        Destroy(tempMoveRI);
+                        //Debug.Log("tempMoveRI destroyed");
+                    }
                 }
             }
-            // If not, and tempMoveRI exists, destroy it
-            else if (tempMoveRI)
+
+            // After the unit is done moving, it automatically triggers the action
+            // None of this code is needed if the Unit is an enemy
+            if (sc.state == UnitState.ACTION && isPlayer)
             {
-                triggerOnce2 = false;
-                Destroy(tempMoveRI);
-                //Debug.Log("tempMoveRI destroyed");
+                // If the tempMoveRI still exists, we need to destroy it
+                if (tempMoveRI)
+                {
+                    triggerOnce2 = false;
+                    Destroy(tempMoveRI);
+                    //Debug.Log("tempMoveRI destroyed, but in Action State");
+                }
+
+                // Disabling the Move Canvas, so the button doesn't show
+                moveCv.enabled = false;
+
+                // Setting the Camera in the right position
+                camPar.transform.position = new Vector3 (this.transform.position.x, this.transform.position.y, -10f);
+                camParMoveScript.zoomState = camParMoveScript.lockZoomState;
+                cam.orthographicSize = camParMoveScript.zoomState;
+                camParMoveScript.lockCam = true;
+
+                // Trigger Once locks the Action Trigger so it doesn't constantly set the Start Canvas enabled to true
+                if (!triggerOnce)
+                {
+                    triggerOnce = true;
+                    asc.ActionTriggerUnit();
+                }
+            }
+
+            // After the ActionStateController script is done executing, all roads will trigger the end state
+            if (sc.state == UnitState.END)
+            {
+                // Greys out the unit so that it's clear that that unit cannot be interacted with anymore
+                unitModelChild.color = Color.grey;
+
+                // Sets the movable variable to false, so the unit cannot move more than once per turn
+                movable = false;
+
+                // Unlocks the camera so we can move it again
+                camParMoveScript.lockCam = false;
+
+                // Code that the enemies don't need
+                if (isPlayer)
+                {
+                    // Disabling the prompt canvas because we're done with actions
+                    promptCv.enabled = false;
+
+                    // Reset TriggerOnce for the next turn
+                    triggerOnce = false;
+
+                    // Removes this object from selected object in the TileMap script
+                    if (!triggerOnce1)
+                    {
+                        map.selectedUnit = null;
+                        triggerOnce1 = true;
+                    }
+                }
             }
         }
-
-        // After the unit is done moving, it automatically triggers the action
-        if (sc.state == UnitState.ACTION)
+        else
         {
-            // If the tempMoveRI still exists, we need to destroy it
-            if (tempMoveRI)
+            if (tc.playerTurn)
             {
-                triggerOnce2 = false;
-                Destroy(tempMoveRI);
-                //Debug.Log("tempMoveRI destroyed, but in Action State");
+                unitModelChild.color = Color.grey;
             }
-
-            // Disabling the Move Canvas, so the button doesn't show
-            moveCv.enabled = false;
-
-            // Setting the Camera in the right position
-            camPar.transform.position = new Vector3 (this.transform.position.x, this.transform.position.y, -10f);
-            camParMoveScript.zoomState = camParMoveScript.lockZoomState;
-            cam.orthographicSize = camParMoveScript.zoomState;
-            camParMoveScript.lockCam = true;
-
-            // Trigger Once locks the Action Trigger so it doesn't constantly set the Start Canvas enabled to t
-            if (!triggerOnce)
+            else
             {
-                triggerOnce = true;
-                asc.ActionTriggerUnit();
-            }
-        }
-
-        // After the ActionStateController script is done executing, all roads will trigger the end state
-        if (sc.state == UnitState.END)
-        {
-            // Disabling the prompt canvas because we're done with actions
-            promptCv.enabled = false;
-
-            // Reset TriggerOnce for the next turn
-            triggerOnce = false;
-
-            // Greys out the unit so that it's clear that that unit cannot be interacted with anymore
-            unitModelChild.color = Color.grey;
-
-            // Sets the movable variable to false, so the unit cannot move more than once per turn
-            movable = false;
-
-            // Unlocks the camera so we can move it again
-            camParMoveScript.lockCam = false;
-
-            // Removes this object from selected object in the TileMap script
-            if (!triggerOnce1)
-            {
-                map.selectedUnit = null;
-                triggerOnce1 = true;
+                unitModelChild.color = Color.white;
             }
         }
     }

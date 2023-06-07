@@ -11,7 +11,7 @@ public class TurnController : MonoBehaviour
     List<StateController> playerSC = new List<StateController>();
     List<StateController> enemySC = new List<StateController>();
 
-    bool playerTurn;
+    public bool playerTurn;
 
     int counterTC;
 

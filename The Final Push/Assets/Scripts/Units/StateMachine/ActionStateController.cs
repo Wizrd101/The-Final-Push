@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using Unity.VisualScripting;
 
 public class ActionStateController : MonoBehaviour
 {
@@ -27,11 +28,12 @@ public class ActionStateController : MonoBehaviour
     // One of these will not be used, depending on whether the GO script is attatched to is a General or not.
     UnitInfo PlayerUI;
     GeneralInfo PlayerGI;
-    bool isGeneral;
+    //BuildingInfo PlayerBI;
 
     // Scripts for enemies that are attacked. Will be assigned on an as-needed basis.
     UnitInfo EnemyUI;
     GeneralInfo EnemyGI;
+    BuildingInfo EnemyBI;
 
     // This script is for both sides, which means that we will need the EnemyAI script for the enemies turn.
     EnemyAI enemyAI;
@@ -66,15 +68,13 @@ public class ActionStateController : MonoBehaviour
     {
         if (this.gameObject.tag == "PlayerUnit" || this.gameObject.tag == "EnemyUnit")
         {
-            // If this script is attatched to a troop unit, get the troop unit canvas
+            // If this script is attatched to a troop unit, get the troop unit info
             PlayerUI = GetComponent<UnitInfo>();
-            isGeneral = false;
         }
         else if (this.gameObject.tag == "PlayerGeneral" || this.gameObject.tag == "EnemyGeneral")
         {
-            // If this script is attatched to a general, get the general canvas
+            // If this script is attatched to a general, get the general info
             PlayerGI = GetComponent<GeneralInfo>();
-            isGeneral = true;
 
             // If the General is General 4, then add a special magic variable
             if (this.PlayerGI.generalType == 4)
@@ -296,7 +296,7 @@ public class ActionStateController : MonoBehaviour
                 }
             }
         }
-        else
+        else if (map.selectedUnit.tag == "EnemyGeneral")
         {
             EnemyGI = map.selectedUnit.GetComponent<GeneralInfo>();
             if (this.tag == "PlayerUnit")
@@ -313,6 +313,26 @@ public class ActionStateController : MonoBehaviour
                 if (crit)
                 {
                     EnemyGI.curHealth -= PlayerGI.atkPower;
+                }
+            }
+        }
+        else
+        {
+            EnemyBI = map.selectedUnit.GetComponent<BuildingInfo>();
+            if (this.tag == "PlayerUnit")
+            {
+                EnemyBI.curHealth -= PlayerUI.atkPower;
+                if (crit)
+                {
+                    EnemyBI.curHealth -= PlayerUI.atkPower;
+                }
+            }
+            else
+            {
+                EnemyBI.curHealth -= PlayerGI.atkPower;
+                if (crit)
+                {
+                    EnemyBI.curHealth -= PlayerGI.atkPower;
                 }
             }
         }
@@ -354,7 +374,7 @@ public class ActionStateController : MonoBehaviour
                 }
             }
         }
-        else
+        else if (map.selectedUnit.tag == "EnemyGeneral")
         {
             EnemyGI = map.selectedUnit.GetComponent<GeneralInfo>();
             if (this.tag == "PlayerUnit")
@@ -371,6 +391,26 @@ public class ActionStateController : MonoBehaviour
                 if (crit)
                 {
                     EnemyGI.curHealth -= PlayerGI.atkPower;
+                }
+            }
+        }
+        else
+        {
+            EnemyBI = map.selectedUnit.GetComponent<BuildingInfo>();
+            if (this.tag == "PlayerUnit")
+            {
+                EnemyBI.curHealth -= PlayerUI.atkPower;
+                if (crit)
+                {
+                    EnemyBI.curHealth -= PlayerUI.atkPower;
+                }
+            }
+            else
+            {
+                EnemyBI.curHealth -= PlayerGI.atkPower;
+                if (crit)
+                {
+                    EnemyBI.curHealth -= PlayerGI.atkPower;
                 }
             }
         }
@@ -393,7 +433,7 @@ public class ActionStateController : MonoBehaviour
                 EnemyUI.curHealth -= PlayerGI.atkPower;
             }
         }
-        else
+        else if (map.selectedUnit.tag == "EnemyGeneral")
         {
             EnemyGI = map.selectedUnit.GetComponent<GeneralInfo>();
             if (this.tag == "PlayerUnit")
@@ -403,6 +443,18 @@ public class ActionStateController : MonoBehaviour
             else
             {
                 EnemyGI.curHealth -= PlayerGI.atkPower;
+            }
+        }
+        else
+        {
+            EnemyBI = map.selectedUnit.GetComponent<BuildingInfo>();
+            if (this.tag == "PlayerUnit")
+            {
+                EnemyBI.curHealth -= PlayerUI.atkPower;
+            }
+            else
+            {
+                EnemyBI.curHealth -= PlayerGI.atkPower;
             }
         }
 

@@ -8,6 +8,9 @@ TagManager:
   - Map
   - CamParent
   - PlayerGeneral
+  - EnemyUnit
+  - EnemyGeneral
+  - EnemyBuilding
   layers:
   - Default
   - TransparentFX
