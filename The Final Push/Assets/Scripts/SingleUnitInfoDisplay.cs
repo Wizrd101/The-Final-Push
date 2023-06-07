@@ -12,6 +12,8 @@ public class SingleUnitInfoDisplay : MonoBehaviour
 
     TileMap map;
     ActionStateController asc;
+    
+    EnemyAI enemyAI;
 
     Canvas dispCanvas;
 
@@ -21,6 +23,7 @@ public class SingleUnitInfoDisplay : MonoBehaviour
     TextMeshProUGUI attackText;
     TextMeshProUGUI moveText;
     TextMeshProUGUI magicText;
+    TextMeshProUGUI enemyAmmoText;
 
     public bool friendly;
 
@@ -45,6 +48,11 @@ public class SingleUnitInfoDisplay : MonoBehaviour
 
         map = GameObject.FindWithTag("Map").GetComponent<TileMap>();
         asc = GetComponent<ActionStateController>();
+        
+        if (this.gameObject.tag == "EnemyUnit" || this.gameObject.tag == "EnemyGeneral")
+        {
+            enemyAI = GetComponent<EnemyAI>();
+        }
 
         dispCanvas = GameObject.Find("InfoDisplayCanvas").GetComponent<Canvas>();
         dispCanvas.enabled = false;
@@ -55,6 +63,7 @@ public class SingleUnitInfoDisplay : MonoBehaviour
         attackText = dispCanvas.transform.GetChild(4).GetComponent<TextMeshProUGUI>();
         moveText = dispCanvas.transform.GetChild(5).GetComponent<TextMeshProUGUI>();
         magicText = dispCanvas.transform.GetChild(6).GetComponent<TextMeshProUGUI>();
+        enemyAmmoText = dispCanvas.transform.GetChild(7).GetComponent<TextMeshProUGUI>();
     }
 
     void Update()
@@ -95,7 +104,7 @@ public class SingleUnitInfoDisplay : MonoBehaviour
             // General 1
             else if (unitType == 3)
             {
-                titleText.text = "Osbert High";
+                titleText.text = "Osbert Hightower";
             }
             // General 2
             else if (unitType == 4)
@@ -120,6 +129,8 @@ public class SingleUnitInfoDisplay : MonoBehaviour
 
             friendlyText.text = "Friendly";
             friendlyText.color = Color.green;
+
+            enemyAmmoText.enabled = false;
         }
         else
         {
@@ -136,31 +147,40 @@ public class SingleUnitInfoDisplay : MonoBehaviour
             // General 1
             else if (unitType == 3)
             {
-                titleText.text = "1";
+                titleText.text = "Harold Badcocke";
             }
             // General 2
             else if (unitType == 4)
             {
-                titleText.text = "2";
+                titleText.text = "Clive Priestleye";
             }
             // General 3
             else if (unitType == 5)
             {
-                titleText.text = "3";
+                titleText.text = "Beowulf Ashleye";
             }
             // General 4
             else if (unitType == 6)
             {
-                titleText.text = "4";
+                titleText.text = "Dexter Hytere";
             }
             // General 5
             else if (unitType == 7)
             {
-                titleText.text = "5";
+                titleText.text = "Ened Thorne";
             }
 
             friendlyText.text = "Enemy";
             friendlyText.color = Color.red;
+
+            if (enemyAI.rangedLock)
+            {
+                enemyAmmoText.enabled = true;
+            }
+            else
+            {
+                enemyAmmoText.enabled = false;
+            }
         }
 
         if (unitType == 6 && friendly)

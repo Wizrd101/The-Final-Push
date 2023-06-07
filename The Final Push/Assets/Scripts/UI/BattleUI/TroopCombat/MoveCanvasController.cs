@@ -10,6 +10,8 @@ public class MoveCanvasController : MonoBehaviour
 
     int counter;
 
+    List<StateController> playerSC = new List<StateController>();
+
     void Start()
     {
         moveCanvas = GetComponent<Canvas>();
@@ -18,19 +20,17 @@ public class MoveCanvasController : MonoBehaviour
 
     void Update()
     {
-        List<StateController> allSC = new List<StateController>();
-
         foreach (GameObject unit in GameObject.FindGameObjectsWithTag("PlayerUnit"))
         {
-            allSC.Add(unit.GetComponent<StateController>());
+            playerSC.Add(unit.GetComponent<StateController>());
         }
 
         foreach (GameObject unit in GameObject.FindGameObjectsWithTag("PlayerGeneral"))
         {
-            allSC.Add(unit.GetComponent<StateController>());
+            playerSC.Add(unit.GetComponent<StateController>());
         }
 
-        foreach (StateController sc in allSC)
+        foreach (StateController sc in playerSC)
         {
             if (sc.state == UnitState.ACTION)
             {
