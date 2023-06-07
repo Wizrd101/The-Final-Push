@@ -148,8 +148,6 @@ public class Unit : MonoBehaviour
         // After the ActionStateController script is done executing, all roads will trigger the end state
         if (sc.state == UnitState.END)
         {
-            // Make the Unit grayscaled and un-interactable
-
             // Disabling the prompt canvas because we're done with actions
             promptCv.enabled = false;
 

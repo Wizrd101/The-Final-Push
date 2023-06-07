@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TurnController : MonoBehaviour
 {
+    public Canvas winCanvas;
+    public Canvas loseCanvas;
+
     List<StateController> playerSC = new List<StateController>();
     List<StateController> enemySC = new List<StateController>();
 
@@ -40,21 +44,42 @@ public class TurnController : MonoBehaviour
 
     void Update()
     {
-        foreach (StateController sc in playerSC)
+        if (enemySC.Count == 0)
         {
-            if (sc.state == UnitState.END)
-            {
-                counterTC++;
-            }
+            winCanvas.enabled = true;
         }
 
-        if (counterTC == playerSC.Count)
+        if (playerSC.Count == 0)
         {
-            if (playerTurn)
+            loseCanvas.enabled = true;
+        }
+
+        if (playerTurn)
+        {
+            foreach (StateController sc in playerSC)
+            {
+                if (sc.state == UnitState.END)
+                {
+                    counterTC++;
+                }
+            }
+            
+            if (counterTC == playerSC.Count)
             {
                 BeginEnemyTurn();
             }
-            else
+        }
+        else
+        {
+            foreach (StateController sc in enemySC)
+            {
+                if (sc.state == UnitState.END)
+                {
+                    counterTC++;
+                }
+            }
+
+            if (counterTC == enemySC.Count)
             {
                 BeginPlayerTurn();
             }

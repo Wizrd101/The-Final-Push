@@ -33,6 +33,9 @@ public class ActionStateController : MonoBehaviour
     UnitInfo EnemyUI;
     GeneralInfo EnemyGI;
 
+    // This script is for both sides, which means that we will need the EnemyAI script for the enemies turn.
+    EnemyAI enemyAI;
+
     // Range Indicators, my lazy solution to not using the GeneratePathTo function in TileMap.
     public GameObject meleeRI;
     public GameObject rangeRI;
@@ -61,13 +64,13 @@ public class ActionStateController : MonoBehaviour
 
     void Start()
     {
-        if (this.gameObject.tag == "PlayerUnit")
+        if (this.gameObject.tag == "PlayerUnit" || this.gameObject.tag == "EnemyUnit")
         {
             // If this script is attatched to a troop unit, get the troop unit canvas
             PlayerUI = GetComponent<UnitInfo>();
             isGeneral = false;
         }
-        else if (this.gameObject.tag == "PlayerGeneral")
+        else if (this.gameObject.tag == "PlayerGeneral" || this.gameObject.tag == "EnemyGeneral")
         {
             // If this script is attatched to a general, get the general canvas
             PlayerGI = GetComponent<GeneralInfo>();
@@ -86,6 +89,12 @@ public class ActionStateController : MonoBehaviour
         else
         {
             Debug.LogWarning("An ActionStateController is attatched to an object with a null tag");
+        }
+
+        // If the tag says that it's an enemy, we'll need the EnemyAI script variables to work
+        if (this.gameObject.tag == "EnemyUnit" || this.gameObject.tag == "EnemyGeneral")
+        {
+            enemyAI = GetComponent<EnemyAI>();
         }
 
         // Declaring Variables
@@ -234,11 +243,11 @@ public class ActionStateController : MonoBehaviour
 
         if (whichAction == 1)
         {
-            confirmActionBtn.onClick.AddListener(ExecuteMelee);
+            confirmActionBtn.onClick.AddListener(PlayerExecuteMelee);
         }
         else if (whichAction == 2)
         {
-            confirmActionBtn.onClick.AddListener(ExecuteRange);
+            confirmActionBtn.onClick.AddListener(PlayerExecuteRange);
         }
         else if (whichAction == 3)
         {
@@ -254,9 +263,10 @@ public class ActionStateController : MonoBehaviour
         }
     }
 
-    public void ExecuteMelee()
+    public void PlayerExecuteMelee()
     {
         critChance = Random.Range(1, 5);
+
         if (critChance == 1)
         {
             crit = true;
@@ -265,6 +275,7 @@ public class ActionStateController : MonoBehaviour
         {
             crit = false;
         }
+
         if (map.selectedUnit.tag == "EnemyUnit")
         {
             EnemyUI = map.selectedUnit.GetComponent<UnitInfo>();
@@ -310,9 +321,10 @@ public class ActionStateController : MonoBehaviour
         EndAction();
     }
 
-    public void ExecuteRange()
+    public void PlayerExecuteRange()
     {
         critChance = Random.Range(1, 8);
+
         if (critChance == 1)
         {
             crit = true;
@@ -321,6 +333,7 @@ public class ActionStateController : MonoBehaviour
         {
             crit = false;
         }
+
         if (map.selectedUnit.tag == "EnemyUnit")
         {
             EnemyUI = map.selectedUnit.GetComponent<UnitInfo>();
@@ -416,11 +429,11 @@ public class ActionStateController : MonoBehaviour
             EnemyUI = map.selectedUnit.GetComponent<UnitInfo>();
             if (this.tag == "PlayerUnit")
             {
-                EnemyUI.curHealth -= PlayerUI.atkPower;
+                EnemyUI.curHealth += PlayerUI.atkPower;
             }
             else
             {
-                EnemyUI.curHealth -= PlayerGI.atkPower;
+                EnemyUI.curHealth += PlayerGI.atkPower;
             }
         }
         else
@@ -428,11 +441,11 @@ public class ActionStateController : MonoBehaviour
             EnemyGI = map.selectedUnit.GetComponent<GeneralInfo>();
             if (this.tag == "PlayerUnit")
             {
-                EnemyGI.curHealth -= PlayerUI.atkPower;
+                EnemyGI.curHealth += PlayerUI.atkPower;
             }
             else
             {
-                EnemyGI.curHealth -= PlayerGI.atkPower;
+                EnemyGI.curHealth += PlayerGI.atkPower;
             }
         }
 
@@ -449,6 +462,98 @@ public class ActionStateController : MonoBehaviour
         }
 
         EndAction();
+    }
+
+    // These next two public voids are for the enemies: the player should not be able to activate them.
+    public void EnemyMeleeAttack(Unit target)
+    {
+        critChance = Random.Range(1, 10);
+
+        if (critChance == 1)
+        {
+            crit = true;
+        }
+        else
+        {
+            crit = false;
+        }
+
+        if (target.gameObject.tag == "PlayerUnit")
+        {
+            EnemyUI = target.gameObject.GetComponent<UnitInfo>();
+            if (this.tag == "EnemyUnit")
+            {
+                EnemyUI.curHealth -= PlayerUI.atkPower;
+                if (crit)
+                {
+                    EnemyUI.curHealth -= PlayerUI.atkPower;
+                }
+            }
+            else
+            {
+                EnemyUI.curHealth -= PlayerGI.atkPower;
+                if (crit)
+                {
+                    EnemyUI.curHealth -= PlayerGI.atkPower;
+                }
+            }
+        }
+        else if (target.gameObject.tag == "PlayerGeneral")
+        {
+            EnemyGI = target.gameObject.GetComponent<GeneralInfo>();
+            if (this.tag == "EnemyUnit")
+            {
+                EnemyGI.curHealth -= PlayerUI.atkPower;
+                if (crit)
+                {
+                    EnemyGI.curHealth -= PlayerUI.atkPower;
+                }
+            }
+            else
+            {
+                EnemyGI.curHealth -= PlayerGI.atkPower;
+                if (crit)
+                {
+                    EnemyGI.curHealth -= PlayerGI.atkPower;
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("ASC: EnemyMeleeAttack targeting error, tag not found");
+        }
+    }
+
+    public void EnemyRangedAttack(Unit target)
+    {
+        if (target.gameObject.tag == "PlayerUnit")
+        {
+            EnemyUI = target.gameObject.GetComponent<UnitInfo>();
+            if (this.tag == "EnemyUnit")
+            {
+                EnemyUI.curHealth -= PlayerUI.atkPower;
+            }
+            else
+            {
+                EnemyUI.curHealth -= PlayerGI.atkPower;
+            }
+        }
+        else if (target.gameObject.tag == "PlayerGeneral")
+        {
+            EnemyGI = target.gameObject.GetComponent<GeneralInfo>();
+            if (this.tag == "EnemyUnit")
+            {
+                EnemyGI.curHealth -= PlayerUI.atkPower;
+            }
+            else
+            {
+                EnemyGI.curHealth -= PlayerGI.atkPower;
+            }
+        }
+        else
+        {
+            Debug.Log("ASC: EnemyRangeAttack targeting error, tag not found");
+        }
     }
 
     public void EndAction()
