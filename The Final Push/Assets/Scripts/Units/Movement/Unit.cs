@@ -100,7 +100,7 @@ public class Unit : MonoBehaviour
                 Vector3 start = map.TileCoordToWorldCoord(currentPath[curNode].x, currentPath[curNode].y) + new Vector3 (0,0,-1f);
                 Vector3 end = map.TileCoordToWorldCoord(currentPath[curNode + 1].x, currentPath[curNode + 1].y) + new Vector3 (0,0,-1f);
 
-                Debug.DrawLine(start, end, Color.red);
+                //Debug.DrawLine(start, end, Color.red);
 
                 curNode++;
             }
@@ -135,7 +135,7 @@ public class Unit : MonoBehaviour
                         if (!triggerOnce2)
                         {
                             triggerOnce2 = true;
-                            tempMoveRI = Instantiate(movementRI, new Vector3(transform.position.x, transform.position.y, transform.position.z), Quaternion.identity);
+                            tempMoveRI = Instantiate(movementRI, new Vector3(transform.position.x, transform.position.y, -0.002f), Quaternion.identity);
                             //Debug.Log("tempMoveRI spawned");
                         }
                     }
