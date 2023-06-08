@@ -199,7 +199,7 @@ public class Unit : MonoBehaviour
                     // Reset TriggerOnce for the next turn
                     triggerOnce = false;
 
-                    // Removes this object from selected object in the TileMap script
+                    // Removes this object from selected object in the TileMap script and disabled the info canvas
                     if (!triggerOnce1)
                     {
                         map.selectedUnit = null;

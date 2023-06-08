@@ -534,12 +534,13 @@ public class TileMap : MonoBehaviour
         //selectedUnit.GetComponent<Unit>().tileY = y;
         //selectedUnit.transform.position = TileCoordToWorldCoord(x, y);
 
-        // Clearing the Old Path
+        // If there is no selected unit, there is no path to generate
         if (selectedUnit == null)
         {
             return;
         }
 
+        // Clearing the Old Path
         selectedUnit.GetComponent<Unit>().currentPath = null;
 
         // If the Unit cannot enter the tile we clicked on (like a mountain) return out
@@ -637,7 +638,7 @@ public class TileMap : MonoBehaviour
             cur = prev[cur];
         }
 
-        // Adds the source, which is required if only moving one unit is desired
+        // Adds the source, which is required if only moving one square is desired
         currentPath.Add(source);
 
         // Flips the path of nodes around, so that we go to the target, not from the target

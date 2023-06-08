@@ -40,6 +40,12 @@ public class TurnController : MonoBehaviour
         {
             enemySC.Add(unit.GetComponent<StateController>());
         }
+
+        // We want the player to go first, so we'll set all of the enemy state controllers to END here
+        foreach (StateController sc in enemySC)
+        {
+            sc.state = UnitState.END;
+        }
     }
 
     void Update()

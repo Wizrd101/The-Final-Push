@@ -15,6 +15,9 @@ public class ActionStateController : MonoBehaviour
     // Canvas that tells the player what to do after they selected an action.
     Canvas promptCv;
 
+    // Canvas that tells the player information about the Unit
+    Canvas infoCv;
+
     // All the buttons that we will need.
     Button meleeBtn;
     Button rangeBtn;
@@ -28,7 +31,6 @@ public class ActionStateController : MonoBehaviour
     // One of these will not be used, depending on whether the GO script is attatched to is a General or not.
     UnitInfo PlayerUI;
     GeneralInfo PlayerGI;
-    //BuildingInfo PlayerBI;
 
     // Scripts for enemies that are attacked. Will be assigned on an as-needed basis.
     UnitInfo EnemyUI;
@@ -104,6 +106,8 @@ public class ActionStateController : MonoBehaviour
         magicCv = GameObject.Find("TroopCombatCanvas-Start-Magic").GetComponent<Canvas>();
 
         promptCv = GameObject.Find("TroopCombatCanvas-ActionPrompt").GetComponent<Canvas>();
+
+        infoCv = GameObject.Find("InfoDisplayCanvas").GetComponent<Canvas>();
 
         // Buttons
         endTurnBtn = startCv.transform.GetChild(2).GetComponent<Button>();
@@ -610,12 +614,15 @@ public class ActionStateController : MonoBehaviour
 
     public void EndAction()
     {
+        // Clean up the button listeners so they don't activate the unit again
         meleeBtn.onClick.RemoveListener(StartUnitMelee);
         rangeBtn.onClick.RemoveListener(StartUnitRanged);
         magicAtkBtn.onClick.RemoveListener(StartUnitMagicAttack);
         magicHealBtn.onClick.RemoveListener(StartUnitMagicHeal);
         endTurnBtn.onClick.RemoveListener(EndAction);
 
+        // Reseting variables and setting the unit's state to END
+        infoCv.enabled = false;
         whichAction = 0;
         promptCv.enabled = false;
         sc.state = UnitState.END;
