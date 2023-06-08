@@ -9,6 +9,8 @@ public class MovePathRenderer : MonoBehaviour
 
     TileMap map;
 
+    StateController tempSC;
+
     void Start()
     {
         lr = GetComponent<LineRenderer>();
@@ -18,21 +20,26 @@ public class MovePathRenderer : MonoBehaviour
 
     void Update()
     {
-        if (map.currentPath == null)
+        if (map.currentPath == null && map.selectedUnit != null)
         {
             return;
         }
 
-        points.Clear();
-        foreach (Node n in map.currentPath)
-        {
-            points.Add(n);
-        }
-        lr.positionCount = points.Count;
+        tempSC = map.selectedUnit.GetComponent<StateController>();
 
-        for (int i = 0; i < points.Count; i++)
+        if (tempSC.state == UnitState.MOVING)
         {
-            lr.SetPosition(i, new Vector3(points[i].x, points[i].y, -0.03f));
+            points.Clear();
+            foreach (Node n in map.currentPath)
+            {
+                points.Add(n);
+            }
+            lr.positionCount = points.Count;
+
+            for (int i = 0; i < points.Count; i++)
+            {
+                lr.SetPosition(i, new Vector3(points[i].x, points[i].y, -0.03f));
+            }
         }
     }
 }
