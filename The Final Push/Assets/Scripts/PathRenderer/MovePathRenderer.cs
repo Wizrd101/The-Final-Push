@@ -20,7 +20,7 @@ public class MovePathRenderer : MonoBehaviour
 
     void Update()
     {
-        if (map.currentPath == null && map.selectedUnit != null)
+        if (map.currentPath == null)
         {
             return;
         }
@@ -40,6 +40,12 @@ public class MovePathRenderer : MonoBehaviour
             {
                 lr.SetPosition(i, new Vector3(points[i].x, points[i].y, -0.03f));
             }
+        }
+
+        if (tempSC.state == UnitState.ACTION)
+        {
+            points.Clear();
+            lr.positionCount = 0;
         }
     }
 }

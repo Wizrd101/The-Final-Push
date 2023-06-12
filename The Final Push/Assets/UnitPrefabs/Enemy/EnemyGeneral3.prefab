@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 6421486090190502179}
   - component: {fileID: 4892880544816552153}
   - component: {fileID: 2499402071119073817}
+  - component: {fileID: 6316569679135249707}
   - component: {fileID: 5436330274224542041}
   m_Layer: 8
   m_Name: EnemyGeneral3
@@ -241,6 +242,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   state: 0
+--- !u!114 &6316569679135249707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5418680723753269887}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48bd4e59fe50bf94cae058c044dac17a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeRI: {fileID: 0}
+  rangeRI: {fileID: 0}
+  magicAtkRI: {fileID: 0}
+  magicHealRI: {fileID: 0}
+  generalFourMagic: 0
+  whichAction: 0
 --- !u!114 &5436330274224542041
 MonoBehaviour:
   m_ObjectHideFlags: 0
